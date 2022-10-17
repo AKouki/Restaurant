@@ -1,0 +1,123 @@
+﻿@page
+@using Microsoft.AspNetCore.Localization
+@model IndexModel
+@{
+    ViewData["Title"] = "Κάντε Κράτηση";
+    ViewData["Description"] = "Κάντε κράτηση στο εστιατόριό μας";
+    ViewData["ShowPageTitle"] = true;
+
+    var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name;
+}
+
+<div class="reservation-container container py-50">
+    <div class="top-header">
+        <h2>@Localizer["BookATable"]</h2>
+        <p>@Localizer["ReservationInfo1", Settings.Value.ContactPhone1 ?? ""]</p>
+        <p>@Localizer["ReservationInfo2"]</p>
+    </div>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Reservation.Token" />
+        <div class="w-50">
+            <label asp-for="Reservation.FirstName" class="required"></label>
+            <input asp-for="Reservation.FirstName" class="form-control" />
+            <span asp-validation-for="Reservation.FirstName" class="text-danger"></span>
+        </div>
+        <div class="w-50">
+            <label asp-for="Reservation.LastName" class="required"></label>
+            <input asp-for="Reservation.LastName" class="form-control" />
+            <span asp-validation-for="Reservation.LastName" class="text-danger"></span>
+        </div>
+        <div class="w-50">
+            <label asp-for="Reservation.Phone" class="required"></label>
+            <input asp-for="Reservation.Phone" class="form-control" />
+            <span asp-validation-for="Reservation.Phone" class="text-danger"></span>
+        </div>
+        <div class="w-50">
+            <label asp-for="Reservation.Email"></label>
+            <input asp-for="Reservation.Email" class="form-control" />
+            <span asp-validation-for="Reservation.Email" class="text-danger"></span>
+        </div>
+        <div class="w-33">
+            <label asp-for="Reservation.ReservationDate" class="required"></label>
+            <input type="text" asp-for="Reservation.ReservationDate" asp-format="@(requestCultureName == "en" ? "{0:MM/dd/yyyy}" : "{0:dd/MM/yyyy}")" class="form-control datepicker" />
+            <span asp-validation-for="Reservation.ReservationDate" class="text-danger"></span>
+        </div>
+        <div class="w-33">
+            <label asp-for="Reservation.ReservationTime" class="required"></label>
+            <select asp-for="Reservation.ReservationTime" asp-items="Model.OpeningHours" class="form-select">
+            </select>
+            <span asp-validation-for="Reservation.ReservationTime" class="text-danger"></span>
+        </div>
+        <div class="w-33">
+            <label asp-for="Reservation.Guests" class="required"></label>
+            <select asp-for="Reservation.Guests" class="form-select">
+                @for (var i = 1; i <= 10; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+            <span asp-validation-for="Reservation.Guests" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Reservation.Note"></label>
+            <textarea asp-for="Reservation.Note" class="form-control"></textarea>
+            <span asp-validation-for="Reservation.Note" class="text-danger"></span>
+        </div>
+        <div>
+            <div class="accept-terms-checkbox">
+                <input asp-for="Reservation.AcceptedTerms" />
+                <label asp-for="Reservation.AcceptedTerms" class="fs-14">
+                    @Localizer["AcceptTerms"]
+                </label>
+            </div>
+            <span asp-validation-for="Reservation.AcceptedTerms" class="text-danger"></span>
+        </div>
+        <div class="fs-14">
+            This site is protected by reCAPTCHA and the Google
+            <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+            <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+        </div>
+        <div class="form-buttons">
+            <input type="submit" value="@Localizer["Κάντε Κράτηση"]" class="btn btn-primary uppercase" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
+    <script src="~/js/custom-validators.js" asp-append-version="true"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=@Model.ReCaptchaSiteKey"></script>
+    <script>
+        $(document).ready(function() {
+            $(".datepicker").datepicker({
+                dateFormat: '@(requestCultureName == "en" ? "mm/dd/yy" : "dd/mm/yy")',
+                firstDay: 1,
+                minDate: 0,
+                maxDate: '+1m',
+                beforeShowDay: function(date) {
+                    // Not showing Sundays
+                    return [date.getDay() > 0];
+                }
+            });
+        });
+
+        $("form").submit(function(e) {
+            e.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute('@Model.ReCaptchaSiteKey', { action: 'reservation' }).then(function(token) {
+                    $("#Reservation_Token").val(token);
+                    if ($("form").valid()) {
+                        e.currentTarget.submit();
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+@section Head {
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.min.css" asp-append-version="true" />
+}

@@ -1,0 +1,60 @@
+﻿@import "../base/_variables.scss";
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .left-side {
+        width: 60%;
+    }
+
+    .right-side {
+        width: 40%;
+        padding: 0 50px;
+
+        h3 {
+            font-size: 1rem;
+        }
+
+        & > div {
+            margin-top: 25px;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .success-alert {
+        padding: 10px 20px;
+        margin: 0 10px 25px 10px;
+        color: $color-black;
+        background: rgba($color-success, 0.1);
+        border: 1px solid rgba($color-success, 0.2);
+        border-radius: 0.25rem;
+        font-size: 14px;
+
+        p {
+            margin-bottom: 0.25rem;
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    .contact-container {
+        .left-side,
+        .right-side {
+            width: 100%;
+        }
+
+        .right-side {
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+
+}

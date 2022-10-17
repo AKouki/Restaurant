@@ -1,0 +1,70 @@
+﻿@import "../base/_variables.scss";
+
+.menu-item-wrapper {
+    margin-bottom: 20px;
+
+    h3 {
+        font-size: 32px;
+        font-weight: 200;
+        text-align: center;
+        color: $color-secondary;
+    }
+}
+
+.menu-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    .menu-item {
+        width: 48%;
+        margin-bottom: 20px;
+        font-size: 1rem;
+
+        &_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-weight: 700;
+                letter-spacing: 0.2px;
+            }
+
+            .line {
+                flex-grow: 1;
+                border-bottom: 1px dashed $color-gray-light;
+                align-self: flex-end;
+                margin: 0 10px 4px 10px;
+            }
+
+            .price {
+                font-weight: 700;
+            }
+        }
+
+        .description {
+            color: $color-gray-dark;
+            font-size: 14px;
+            margin-top: 7px;
+            line-height: 1.5;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+}
+
+@media screen and (max-width: 575.98px) {
+    .menu-list {
+        .menu-item {
+            width: 100%;
+        }
+    }
+}

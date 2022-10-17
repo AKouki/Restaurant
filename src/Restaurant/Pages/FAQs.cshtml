@@ -1,0 +1,81 @@
+﻿@page
+@model FAQsModel
+@{
+    ViewData["Title"] = "FAQs";
+    ViewData["ShowPageTitle"] = true;
+}
+
+<div class="faqs-container container py-50">
+    <div class="faqs">
+        <div class="faq-item">
+            <div class="header">
+                <h4>@Localizer["Πως μπορώ να κάνω κράτηση ενός τραπεζιού;"]</h4>
+            </div>
+            <div class="content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum massa a placerat sollicitudin. Quisque congue semper eros blandit consequat. Pellentesque consectetur, ante vitae hendrerit feugiat, tellus dolor vehicula augue, vitae congue arcu tortor aliquet dui. Maecenas mi ipsum, blandit non auctor vitae, posuere eu est. In at libero in nisi lobortis vestibulum vitae eu urna. Nam at ligula sit amet erat rutrum pharetra in sit amet turpis.
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="header">
+                <h4>@Localizer["Μέχρι πόσα άτομα μπορώ να κάνω κράτηση;"]</h4>
+            </div>
+            <div class="content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum massa a placerat sollicitudin. Quisque congue semper eros blandit consequat. Pellentesque consectetur, ante vitae hendrerit feugiat, tellus dolor vehicula augue, vitae congue arcu tortor aliquet dui. Maecenas mi ipsum, blandit non auctor vitae, posuere eu est. In at libero in nisi lobortis vestibulum vitae eu urna. Nam at ligula sit amet erat rutrum pharetra in sit amet turpis.
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="header">
+                <h4>@Localizer["Μέχρι πόσες ώρες πριν μπορώ να κάνω κράτηση;"]</h4>
+            </div>
+            <div class="content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum massa a placerat sollicitudin. Quisque congue semper eros blandit consequat. Pellentesque consectetur, ante vitae hendrerit feugiat, tellus dolor vehicula augue, vitae congue arcu tortor aliquet dui. Maecenas mi ipsum, blandit non auctor vitae, posuere eu est. In at libero in nisi lobortis vestibulum vitae eu urna. Nam at ligula sit amet erat rutrum pharetra in sit amet turpis.
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="header">
+                <h4>@Localizer["Πως μπορώ να ακυρώσω μια κράτηση;"]</h4>
+            </div>
+            <div class="content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum massa a placerat sollicitudin. Quisque congue semper eros blandit consequat. Pellentesque consectetur, ante vitae hendrerit feugiat, tellus dolor vehicula augue, vitae congue arcu tortor aliquet dui. Maecenas mi ipsum, blandit non auctor vitae, posuere eu est. In at libero in nisi lobortis vestibulum vitae eu urna. Nam at ligula sit amet erat rutrum pharetra in sit amet turpis.
+                </p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="header">
+                <h4>@Localizer["Μπορώ να αλλάξω ημέρα και ώρα της κράτησης μου;"]</h4>
+            </div>
+            <div class="content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum massa a placerat sollicitudin. Quisque congue semper eros blandit consequat. Pellentesque consectetur, ante vitae hendrerit feugiat, tellus dolor vehicula augue, vitae congue arcu tortor aliquet dui. Maecenas mi ipsum, blandit non auctor vitae, posuere eu est. In at libero in nisi lobortis vestibulum vitae eu urna. Nam at ligula sit amet erat rutrum pharetra in sit amet turpis.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $(".header").on("click", function() {
+                $(this).parent(".faq-item").toggleClass("open");
+
+                var isOpen = $(this).parent(".faq-item").hasClass("open");
+                if (isOpen) {
+                    var scrollHeight = $(this).parent(".faq-item").find(".content").prop("scrollHeight");
+                    $(this).parent(".faq-item").find(".content").css("max-height", scrollHeight);
+                }
+                else {
+                    $(this).parent(".faq-item").find(".content").css("max-height", 0);
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+}
+
+<div class="section section-hero">
+    <div class="hero-carousel owl-carousel owl-theme">
+        <div class="slide">
+            <img class="owl-lazy" data-src="/images/hero1.jpg" alt="Slide 1 image" />
+            <div class="slide-content">
+                <p>@Localizer["Καλώς ήρθατε στο Restaurant"]</p>
+                <h2>@Localizer["Απολαυστικά και μοναδικά πιάτα στην Αθήνα"]</h2>
+                <a class="btn btn-secondary" asp-area="" asp-page="/Reservation/Index" asp-route-culture="@requestCultureName">@Localizer["ΚΑΝΤΕ ΚΡΑΤΗΣΗ"]</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img class="owl-lazy" data-src="/images/hero2.jpg" alt="Slide 2 image" />
+            <div class="slide-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h2>Welcome to Restaurant.</h2>
+                <a class="btn btn-secondary" asp-area="" asp-page="/Menu">@Localizer["ΔΕΣ ΤΟ ΜΕΝΟΥ"]</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+﻿@model ReservationViewModel
+
+<div class="modal fade" id="reservationDetailsModal" tabindex="-1" aria-labelledby="reservationDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationDetailsModalLabel">Reservation Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <dl class="row">
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.Id)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Id)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Phone)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.ReservationDateTime)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Model.ReservationDateTime.ToRelativeString()
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.Guests)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Guests)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.Notes)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @if (!string.IsNullOrEmpty(Model.Notes))
+                        {
+                            @Html.DisplayFor(model => model.Notes)
+                        }
+                        else
+                        {
+                            <span class="text-secondary2">None</span>
+                        }
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.CreatedAt)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.CreatedAt)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.IsConfirmed)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.IsConfirmed)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        @Html.DisplayNameFor(model => model.IsRead)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.IsRead)
+                    </dd>
+                    <dt class="col-sm-5 fw-500">
+                        Notification email sent at
+                    </dt>
+                    <dd class="col-sm-7">
+                        @if (Model.NotificationSentAt == null)
+                        {
+                            <span>Not sent</span>
+                        }
+                        else
+                        {
+                            <span>@Model.NotificationSentAt?.ToString("dd/MM/yyyy hh:mm tt")</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

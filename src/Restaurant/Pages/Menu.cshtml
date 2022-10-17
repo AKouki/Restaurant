@@ -1,0 +1,42 @@
+﻿@page
+@using Microsoft.AspNetCore.Localization
+@using Restaurant.Models
+@model MenuModel
+@{
+    ViewData["Title"] = "Μενού";
+    ViewData["Description"] = "Νόστιμες γεύσεις - Μενού";
+    ViewData["ShowPageTitle"] = true;
+
+    var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+}
+
+<div class="menu-container container py-50">
+    @foreach (var menu in Model.Menus)
+    {
+        <div class="menu-item-wrapper">
+            @{
+                var menuName = requestCultureName == "en" && !string.IsNullOrEmpty(menu.NameEn) ? menu.NameEn : menu.Name;
+            }
+            <h3>@menuName</h3>
+            <div class="menu-list">
+                @foreach (var item in menu.MenuItems?.OrderBy(i => i.OrderLevel).ToList() ?? Enumerable.Empty<MenuItem>())
+                {
+                    <div class="menu-item">
+                        @{
+                            var menuItemName = requestCultureName == "en" && !string.IsNullOrEmpty(item.NameEn) ? item.NameEn : item.Name;
+                            var menuItemDescription = requestCultureName == "en" && !string.IsNullOrEmpty(item.DescriptionEn) ? item.DescriptionEn : item.Description;
+                        }
+                        <div class="menu-item_header">
+                            <span class="title">@menuItemName</span>
+                            <span class="line"></span>
+                            <span class="price">@item.Price&euro;</span>
+                        </div>
+                        <p class="description">@menuItemDescription</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+

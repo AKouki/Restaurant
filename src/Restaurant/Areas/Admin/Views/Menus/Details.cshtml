@@ -1,0 +1,208 @@
+﻿@model MenuViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="mb-0">@Model.Name</h1>
+    <div class="d-flex align-items-center">
+        <a class="btn btn-primary btn-sm  btn-add-menu-item me-2">Add Menu Item</a>
+        <a class="btn btn-primary btn-sm" asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="sortable">
+                    @if (Model.MenuItemsCount == 0)
+                    {
+                        <partial name="_TableRowNoData" />
+                    }
+
+                    @foreach (var item in Model?.MenuItems?.OrderBy(i => i.OrderLevel).ToList() ?? Enumerable.Empty<MenuItemViewModel>())
+                    {
+                        <tr data-id="@item.Id" data-level="@item.OrderLevel">
+                            <td>
+                                <a class="btn-edit-menu-item">@item.Name</a>
+                            </td>
+                            <td>@item.Description</td>
+                            <td>@item.Price&euro;</td>
+                            <td width="200">
+                                <div class="dropdown">
+                                    <a class="btn btn-light btn-sm text-secondary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                        <li>
+                                            <a class="dropdown-item btn-edit-menu-item">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="DeleteMenuItem" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<partial name="_DeleteConfirmation" />
+<partial name="_Toast" />
+<div class="modal-wrapper"></div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var data = [];
+            $(".sortable").sortable({
+                delay: 50,
+                placeholder: "ui-sortable-placeholder",
+                helper: function(event, ui) {
+                    ui.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return ui;
+                },
+                update: function(event, ui) {
+                    $(this).children().each(function(index) {
+                        if ($(this).attr("data-level") != (index + 1)) {
+                            var itemId = parseInt($(this).attr('data-id'));
+
+                            $(this).attr('data-level', (index + 1));
+                            data.push({ ItemId: itemId, ItemLevel: (index + 1) });
+                        }
+                    });
+                },
+                stop: function(event, ui) {
+                    if (data.length > 0) {
+                        $.ajax({
+                            url: '/Admin/Menus/UpdateMenuItemOrderLevel',
+                            method: 'POST',
+                            dataType: 'json',
+                            data: { data },
+                            complete: function(result) {
+                                data = [];
+                            }
+                        });
+                    }
+                }
+            }).disableSelection();
+
+            $(".btn-add-menu-item").on("click", function() {
+                $.ajax({
+                    method: "GET",
+                    url: '@Url.Action("AddMenuItem", new { id = Model?.Id })',
+                    success: function(result) {
+                        $(".modal-wrapper").html(result);
+                        $("#addMenuItemModal").modal('show');
+                    }
+                });
+            });
+
+            $(this).on("click", ".btn-edit-menu-item", function() {
+                var id = $(this).closest("tr").data("id");
+
+                $.ajax({
+                    method: "GET",
+                    url: `/Admin/Menus/EditMenuItem/${id}`,
+                    success: function(result) {
+                        $(".modal-wrapper").html(result);
+                        $("#editMenuItemModal").modal('show');
+                    }
+                });
+            });
+
+            $(this).on("submit", "#add-menu-item-form", function(e) {
+                e.preventDefault();
+                var form = $(this);
+
+                $.ajax({
+                    method: "POST",
+                    url: '@Url.Action("AddMenuItem", new { id = Model?.Id })',
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        $("table tr.no-data").remove();
+                        addTableRow(response);
+                        $(form)[0].reset();
+                        $(form).find("input:first").focus();
+
+                        showToast("Menu item added successfully.");
+
+                        //location.reload();
+                        //$("#createMenuItemModal").modal('hide');
+                    }
+                });
+            });
+
+            $(this).on("submit", "#edit-menu-item-form", function(e) {
+                e.preventDefault();
+                var form = $(this);
+
+                $.ajax({
+                    method: "POST",
+                    url: '@Url.Action("EditMenuItem", new { id = Model?.Id })',
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        updateTableRow(response);
+                        $("#editMenuItemModal").modal('hide');
+
+                        //location.reload();
+                    }
+                });
+            });
+
+            function addTableRow(response) {
+                $(".table tbody").append(generateRow(response));
+            }
+
+            function updateTableRow(response) {
+                $(`.table tr[data-id=${response.id}]`).replaceWith(generateRow(response));
+            }
+
+            function generateRow(response) {
+                var html = `
+                        <tr data-id="${response.id}" data-level="${response.orderLevel}">
+                                <td><a class="btn-edit-menu-item">${response.name}</a></td>
+                                <td>${response.description}</td>
+                                <td>${response.price.toFixed(2)}&euro;</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-light btn-sm text-secondary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                            </svg>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                            <li>
+                                                <a class="dropdown-item btn-edit-menu-item">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/Admin/Menus/DeleteMenuItem/${response.id}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>`;
+                return html;
+            }
+        });
+    </script>
+}

@@ -1,0 +1,113 @@
+﻿@model AddRecommendationViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-12">
+                <div class="dropdown select-from-menu">
+                    <a class="btn btn-outline-primary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select from menu
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="mx-2">
+                            <input type="text" class="search-input form-control fs-14" placeholder="Search..." />
+                        </div>
+                        <div class="results-container">
+                            @foreach (var menu in ViewData["MenuItems"] as List<MenuViewModel> ?? Enumerable.Empty<MenuViewModel>())
+                            {
+                                if (menu.MenuItems?.Count > 0)
+                                {
+                                    <div class="list-wrapper">
+                                        <div class="dropdown-header fw-500">@menu.Name</div>
+                                        <ul class="list-unstyled mb-0 menu-items-list">
+                                            @foreach (var item in menu.MenuItems ?? Enumerable.Empty<MenuItemViewModel>())
+                                            {
+                                                <li class="dropdown-item text-wrap" role="button" data-id="@item.Id">@item.Name</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" placeholder="Enter description here..." rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label class="form-label">Price (&euro;)</label>
+                <input asp-for="Price" type="number" class="form-control currency-field" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Picture" class="form-label"></label>
+                <input asp-for="Picture" accept=".jpg,.jpeg,.png" class="form-control" />
+                <span asp-validation-for="Picture" class="text-danger"></span>
+                <div class="form-text">Allowed file types: .jpg, .jpeg, .png. Maximum file size: 1MB.</div>
+            </div>
+            <div class="col-12">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-light" asp-action="Index">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function() {
+            $(".search-input").on("keyup", function() {
+                var searchText = $(this).val().toLowerCase();
+
+                // Show only matched list items
+                $(".menu-items-list li").each(function() {
+                    var currentValue = $(this).text().toLowerCase();
+                    $(this).toggleClass("d-none", currentValue.indexOf(searchText) == -1);
+                });
+
+                // Hide all empty lists
+                $(".menu-items-list").each(function() {
+                    var visibleItems = $(this).find("li:not(.d-none)").length;
+                    $(this).parent(".list-wrapper").toggleClass("d-none", visibleItems == 0)
+                });
+            });
+
+            $(".dropdown-item").on("click", function() {
+                var id = $(this).data("id");
+
+                $.ajax({
+                    method: "GET",
+                    url: `/Admin/Menus/ViewMenuItemDetails/${id}`,
+                    success: function(response) {
+                        $("input[name=Name]").val(response.name);
+                        $("textarea[name=Description]").val(response.description);
+                        $("input[name=Price]").val(response.price.toFixed(2));
+                    }
+                });
+            });
+
+            $(".dropdown").on("hide.bs.dropdown", function() {
+                $(".search-input").val("");
+                $(".menu-items-list li").removeClass("d-none");
+                $(".list-wrapper").removeClass("d-none");
+            });
+        });
+    </script>
+}

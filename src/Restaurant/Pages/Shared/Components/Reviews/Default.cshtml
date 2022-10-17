@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using Restaurant.Models
+@model IEnumerable<Review>
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+}
+
+@if (Model.Any())
+{
+    <div class="section section-reviews">
+        <div class="container">
+            <h2 class="section-title">@Localizer["Τι λένε οι πελάτες"]</h2>
+            <div class="reviews reviews-carousel owl-carousel owl-theme">
+                @foreach (var item in Model)
+                {
+                    <div class="review-item text-center">
+                        @{
+                            var text = requestCultureName == "en" && !string.IsNullOrEmpty(item.TextEn) ? item.TextEn : item.Text;
+                            var reviewerName = requestCultureName == "en" && !string.IsNullOrEmpty(item.ReviewerNameEn) ? item.ReviewerNameEn : item.ReviewerName;
+                        }
+                        <p class="text">"@text"</p>
+                        <div class="rating-stars">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                <span class="@(i < item.Rating ? "star checked" : "star")"></span>
+                            }
+                        </div>
+                        <p class="reviewer">@reviewerName</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

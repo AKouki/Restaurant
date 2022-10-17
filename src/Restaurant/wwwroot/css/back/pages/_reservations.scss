@@ -1,0 +1,119 @@
+﻿.filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    & > * {
+        margin-bottom: 10px;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+
+        input[type=search] {
+            width: 270px;
+            text-indent: 25px;
+        }
+
+        svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    .filters {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        flex-grow: 1;
+
+        & > * {
+            width: 160px;
+            margin: 0 5px;
+        }
+
+        .dropdown > a.active {
+            border: 1px solid #2a62fe;
+        }
+
+        .btn-clear-filters {
+            flex-grow: 0;
+            width: auto;
+        }
+    }
+
+    .bulk-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+
+            svg {
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+
+        & > *:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .search-container {
+            input[type=search] {
+                width: 100%;
+            }
+        }
+
+        .filters {
+            margin-left: 0;
+
+            & > * {
+                margin-left: 0;
+                flex-grow: 1;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            .btn-clear-filters {
+                flex-grow: 0;
+                width: auto;
+            }
+        }
+
+        .bulk-actions {
+            justify-content: center;
+        }
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .filters-container {
+        & > *:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        .filters {
+            flex-direction: column;
+            align-items: flex-start;
+
+            & > * {
+                margin: 5px 0;
+                width: 100%;
+            }
+        }
+    }
+}

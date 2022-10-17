@@ -1,0 +1,56 @@
+﻿@model MenuItemViewModel
+
+<div class="modal fade" id="editMenuItemModal" tabindex="-1" aria-labelledby="editMenuItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMenuItemModalLabel">Edit Menu Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AddMenuItem" asp-controller="Menus" asp-route-id="@Model.MenuId" id="edit-menu-item-form" class="row g-3 position-relative">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <partial name="_LanguageNavTabs" />
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="default-tab-pane" role="tabpanel" aria-labelledby="default-tab" tabindex="0">
+                            <div class="col-12">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label asp-for="Description" class="form-label"></label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="english-tab-pane" role="tabpanel" aria-labelledby="english-tab" tabindex="0">
+                            <div class="col-12">
+                                <label asp-for="NameEn" class="form-label"></label>
+                                <input asp-for="NameEn" class="form-control" />
+                                <span asp-validation-for="NameEn" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label asp-for="DescriptionEn" class="form-label"></label>
+                                <textarea asp-for="DescriptionEn" class="form-control"></textarea>
+                                <span asp-validation-for="DescriptionEn" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Price (&euro;)</label>
+                        <input asp-for="Price" type="number" class="form-control currency-field" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="edit-menu-item-form">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

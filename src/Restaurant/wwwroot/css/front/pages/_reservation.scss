@@ -1,0 +1,45 @@
+﻿@import "../base/_variables.scss";
+
+.reservation-container {
+    .top-header {
+        margin-bottom: 30px;
+        padding: 0 10%;
+        text-align: center;
+
+        h2 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            color: $color-gray-dark;
+            line-height: 1.5;
+
+            span {
+                color: $color-black;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+.reservation-success-container {
+    min-height: 500px;
+
+    svg {
+        color: $color-success;
+    }
+
+    p {
+        margin: 1rem 0;
+    }
+
+    .btn {
+        margin-top: 30px;
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .reservation-container .top-header {
+        padding: 0 10px;
+    }
+}

@@ -1,0 +1,43 @@
+﻿.faqs-container {
+    max-width: 900px;
+}
+
+.faq-item {
+    position: relative;
+
+    &:not(:last-child) {
+        margin-bottom: 25px;
+    }
+
+    .header {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>');
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: 24px 24px;
+        cursor: pointer;
+        transition: background-image .1s ease-in-out;
+
+        h4 {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            margin-right: 50px;
+        }
+    }
+
+    .content {
+        line-height: 1.5;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease-in-out;
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &.open {
+        .header {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>');
+        }
+    }
+}

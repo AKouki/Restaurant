@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+}
+
+<div class="section section-welcome">
+    <div class="container section-inner">
+        <div class="left-side">
+            <h2 class="section-title">Restaurant</h2>
+            <p class="section-text">@Localizer["Απολαυστικές γεύσεις στο κέντρο της Αθήνας"]</p>
+            <p class="welcome-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tellus ante, maximus sit amet maximus a, tristique quis turpis. Sed imperdiet, sapien vel venenatis placerat, eros ex porttitor magna, ac porta justo ante vel nisl. In metus neque, bibendum nec odio id, euismod pretium nisi. Quisque at odio ornare, auctor.</p>
+            <a asp-area="" asp-page="/About" asp-route-culture="@requestCultureName" class="btn btn-secondary uppercase">
+                @Localizer["Το εστιατόριο"]
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+        </div>
+        <div class="right-side">
+            <img src="~/images/welcome1.jpg" alt="Restaurant photo 1" />
+            <img src="~/images/welcome2.jpg" alt="Restaurant photo 2" />
+        </div>
+    </div>
+</div>

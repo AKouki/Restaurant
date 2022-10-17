@@ -1,0 +1,109 @@
+﻿@model IEnumerable<ReviewViewModel>
+
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>@ViewData["Title"]</h1>
+    <a class="btn btn-primary btn-sm" asp-action="Create">Create New</a>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Text</th>
+                        <th>Reviewer Name</th>
+                        <th>Rating</th>
+                        <th>Created At</th>
+                        <th>Published</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <partial name="_TableRowNoData" />
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td width="45%">
+                                @item.Text
+                            </td>
+                            <td width="220">
+                                @item.ReviewerName
+                            </td>
+                            <td>
+                                @item.Rating
+                            </td>
+                            <td>
+                                @item.CreatedAt.ToString("dd MMM yyyy")
+                            </td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="@item.IsPublished" data-id="@item.Id">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a class="btn btn-light btn-sm text-secondary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<partial name="_DeleteConfirmation" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").on("change", function() {
+                var id = $(this).data("id");
+                var value = $(this).prop("checked");
+                $(this).prop("disabled", true);
+                var checkbox = $(this);
+
+                var url = value ?
+                    `/Admin/Reviews/${id}/Publish` :
+                    `/Admin/Reviews/${id}/Unpublish`;
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    error: function() {
+                        checkbox.prop("checked", !value);
+                    },
+                    complete: function() {
+                        checkbox.prop("disabled", false);
+                    }
+                });
+            });
+        });
+    </script>
+}

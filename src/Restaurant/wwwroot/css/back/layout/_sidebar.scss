@@ -1,0 +1,113 @@
+﻿$sidebar-bg: #2f3952;
+$sidebar-color: rgba(white, 0.75);
+$sidebar-font-size: 1rem;
+$sidebar-font-weight: normal;
+
+$sidebar-brand-size: 24px;
+$sidebar-brand-weight: 500;
+$sidebar-brand-color: white;
+
+$sidebar-link-padding: 0.5rem 0.75rem 0.55rem 0.75rem;
+$sidebar-link-active: lighten($sidebar-bg, 5%);
+$sidebar-link-border-radius: 4px;
+$sidebar-svg-mr: 12px;
+
+.sidebar {
+    min-width: 280px;
+    width: 280px;
+    height: 100vh;
+    min-height: 500px;
+    background: $sidebar-bg;
+    color: $sidebar-color !important;
+
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.75rem;
+    }
+
+    .navbar-brand {
+        font-size: $sidebar-brand-size;
+        color: $sidebar-brand-color;
+        font-weight: $sidebar-brand-weight;
+    }
+
+    .nav-item {
+        margin: 0.25rem 0;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        color: inherit !important;
+        font-size: $sidebar-font-size;
+        font-weight: $sidebar-font-weight;
+        border-radius: $sidebar-link-border-radius;
+        padding: $sidebar-link-padding !important;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            margin-right: $sidebar-svg-mr;
+        }
+
+        &:hover,
+        &.active {
+            background: $sidebar-link-active !important;
+            color: white !important;
+        }
+    }
+
+    .nav-header {
+        font-size: 0.875rem;
+        color: rgba(white, 0.5);
+        margin: 0.5rem 0.75rem;
+    }
+
+    .nav-divider {
+        background-color: rgba(white, 0.1);
+        height: 1px;
+        margin: 0.5rem 0.75rem;
+    }
+}
+
+.user-profile {
+    margin: 0.75rem 0.5rem;
+    line-height: 1.3;
+    color: inherit;
+
+    .avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
+        background: lighten($sidebar-bg, 10%);
+        border-radius: 50%;
+    }
+
+    a, svg {
+        color: inherit;
+        transition: color 0.2s ease-in-out;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+    .btn-logout {
+        background: none;
+        color: inherit;
+        border: none;
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+}

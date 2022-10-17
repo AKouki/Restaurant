@@ -1,0 +1,20 @@
+﻿@import "base/_variables.scss";
+@import "base/_reset.scss";
+@import "base/_typography.scss";
+@import "base/_breakpoints.scss";
+@import "base/_utilities.scss";
+@import "base/_forms.scss";
+@import "base/_buttons.scss";
+
+@import "layout/_header.scss";
+@import "layout/_sections.scss";
+@import "layout/_footer.scss";
+@import "layout/_cookieconsent.scss";
+
+@import "pages/_home.scss";
+@import "pages/_about.scss";
+@import "pages/_menu.scss";
+@import "pages/_gallery.scss";
+@import "pages/_contact.scss";
+@import "pages/_reservation.scss";
+@import "pages/_faqs.scss";

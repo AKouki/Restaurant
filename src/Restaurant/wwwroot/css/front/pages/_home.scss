@@ -1,0 +1,133 @@
+﻿@import "../base/_variables.scss";
+
+.home-page {
+}
+
+.page-title {
+    background-color: #f5f5f5;
+    padding: 70px 20px;
+    text-align: center;
+
+    h1 {
+        font-size: 38px;
+        text-transform: uppercase;
+    }
+}
+
+main {
+    min-height: 200px;
+}
+
+.owl-theme {
+    .owl-nav [class*=owl-] {
+        margin: 0 5px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .owl-dots {
+        margin-top: 10px;
+
+        .owl-dot:hover span,
+        .owl-dot.active span {
+            background: $color-secondary;
+        }
+    }
+}
+
+.hero-carousel {
+    .owl-nav [class*=owl-] {
+        border-radius: 0;
+
+        &:hover {
+            background: rgba(0,0,0,0.5);
+
+            svg {
+                color: white;
+            }
+        }
+
+        svg {
+            width: 40px;
+            height: 50px;
+            color: #ddd;
+            stroke-width: 1;
+        }
+    }
+
+    .owl-prev {
+        left: 20px;
+    }
+
+    .owl-next {
+        right: 20px;
+    }
+
+    .owl-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.reviews-carousel {
+    .owl-nav [class*=owl-] {
+        border-radius: 50%;
+
+        &:hover {
+            background: $color-black;
+
+            svg {
+                color: white;
+            }
+        }
+
+        svg {
+            width: 35px;
+            height: 35px;
+            padding: 2px;
+            color: $color-black;
+            stroke-width: 1.2;
+            border-radius: 50% !important;
+        }
+    }
+
+    .owl-prev {
+        left: -20px;
+    }
+
+    .owl-next {
+        right: -20px;
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+
+}
+
+@media screen and (max-width: 575.98px) {
+    .hero-carousel {
+        .owl-prev {
+            left: 0px;
+        }
+
+        .owl-next {
+            right: 0px;
+        }
+    }
+
+    .reviews-carousel {
+        .owl-prev {
+            left: -5px;
+        }
+
+        .owl-next {
+            right: -5px;
+        }
+    }
+}

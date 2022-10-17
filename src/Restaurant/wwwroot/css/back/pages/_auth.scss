@@ -1,0 +1,19 @@
+﻿.auth-container {
+    padding: 25px;
+
+    h1 {
+        font-size: 1.75rem;
+    }
+}
+
+.validation-summary-errors {
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.field-validation-error {
+    font-size: 0.875rem;
+}

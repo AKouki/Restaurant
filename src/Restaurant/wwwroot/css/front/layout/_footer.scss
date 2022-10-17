@@ -1,0 +1,219 @@
+﻿@import "../base/_variables.scss";
+
+.footer {
+    background: $footer-background;
+
+    a {
+        color: $color-black;
+        transition: color .2s ease-in-out;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    h3 {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: $color-black;
+    }
+}
+
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px 0;
+
+    .column {
+        min-width: 180px;
+
+        ul li {
+            margin-bottom: 10px;
+        }
+    }
+
+    .column-brand {
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 27px;
+            max-width: 310px;
+            margin-top: 1rem;
+        }
+
+        .socials {
+            display: flex;
+            align-items: center;
+            margin-top: 1.2rem;
+
+            li {
+                margin-bottom: 0;
+
+                &:not(:last-child) {
+                    margin-right: 10px;
+                }
+
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 40px;
+                    height: 40px;
+                    padding: 8px;
+                    border: 1px solid $color-gray-dark;
+                    border-radius: 50%;
+                    color: $color-gray-dark;
+                    transition: all .2s ease-in-out;
+
+                    &:hover {
+                        color: $color-primary;
+                        border-color: $color-primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .column-contact {
+        ul li {
+            display: flex;
+            align-items: center;
+
+            a {
+                display: inline-flex;
+                align-items: center;
+            }
+
+            svg {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .column-open-hours {
+        p {
+            font-size: 14px;
+            line-height: 24px;
+            font-weight: 600;
+        }
+
+        span {
+            display: block;
+            font-weight: 400;
+        }
+    }
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    font-size: 14px;
+
+    a {
+        white-space: nowrap;
+        text-transform: uppercase;
+    }
+
+    ul {
+        display: flex;
+        align-items: center;
+        margin-left: 30px;
+
+        li:not(:last-child) {
+            margin-right: 30px;
+        }
+    }
+}
+
+
+@media screen and (max-width: 991.98px) {
+    .footer {
+        h3 {
+            margin-bottom: 16px;
+        }
+    }
+
+    .footer-columns {
+        justify-content: space-around;
+
+        .column {
+            width: 47%;
+            margin-bottom: 30px;
+        }
+
+        .column-brand {
+            p {
+                margin-top: 10px;
+            }
+
+            .socials {
+                margin-top: 12px;
+            }
+        }
+
+        .column-links, .column-open-hours {
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+@media screen and (max-width: 575.98px) {
+    .footer {
+        h3 {
+            margin-bottom: 14px;
+        }
+    }
+
+    .footer-columns {
+        justify-content: space-around;
+
+        .column {
+            width: 100%;
+            margin: 0 10px;
+
+            &:not(:last-child) {
+                margin-bottom: 25px;
+            }
+        }
+
+        .column-brand {
+            p {
+                margin-top: 10px;
+            }
+
+            ul.socials {
+                margin-top: 12px;
+            }
+        }
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        justify-content: center;
+
+        p {
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-left: 0;
+            margin-top: 10px;
+
+            li {
+                margin-bottom: 5px;
+
+                &:not(:last-child) {
+                    margin-right: 20px;
+                }
+            }
+        }
+    }
+}

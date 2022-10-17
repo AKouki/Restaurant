@@ -1,0 +1,19 @@
+﻿.select-from-menu {
+    .dropdown-menu {
+        width: 400px;
+    }
+}
+
+.results-container {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 575.98px) {
+    .select-from-menu {
+        .dropdown-menu {
+            width: 100%;
+        }
+    }
+}

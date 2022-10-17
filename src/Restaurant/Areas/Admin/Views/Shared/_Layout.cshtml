@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/back/Site.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Restaurant</title>
+</head>
+<body>
+
+    <div class="app">
+        <div class="sidebar">
+            <nav class="navbar navbar-expand-lg navbar-dark h-100 align-items-lg-start">
+                <div class="container-fluid flex-lg-column h-100 align-items-lg-stretch">
+                    <div class="header">
+                        <a class="navbar-brand" href="#">Restaurant</a>
+                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse flex-lg-column align-items-stretch" id="navbarNav">
+                        <ul class="navbar-nav flex-lg-column">
+                            <li class="nav-header">Menu</li>
+                            <li class="nav-item">
+                                <a class="nav-link@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? " active" : "")" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link@(ViewContext.RouteData.Values["controller"]?.ToString() == "Reservations" ? " active" : "")" asp-area="Admin" asp-controller="Reservations" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                                    <span>Reservations</span>
+                                </a>
+                            </li>
+                            @*<li class="nav-divider"></li>*@
+                            <li class="nav-item">
+                                <a class="nav-link@(ViewContext.RouteData.Values["controller"]?.ToString() == "Menus" ? " active" : "")" asp-area="Admin" asp-controller="Menus" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                                    <span>Menu</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link@(ViewContext.RouteData.Values["controller"]?.ToString() == "Recommendations" ? " active" : "")" asp-area="Admin" asp-controller="Recommendations" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <span>Recommendations</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link@(ViewContext.RouteData.Values["controller"]?.ToString() == "Reviews" ? " active" : "")" asp-area="Admin" asp-controller="Reviews" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                                    <span>Reviews</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="user-profile mt-auto py-2">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="main-content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/admin.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

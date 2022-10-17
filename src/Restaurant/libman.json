@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "OwlCarousel2@2.3.4",
+      "destination": "wwwroot/lib/OwlCarousel2/",
+      "files": [
+        "owl.carousel.min.js",
+        "assets/ajax-loader.gif",
+        "assets/owl.carousel.min.css",
+        "assets/owl.theme.default.min.css"
+      ]
+    },
+    {
+      "library": "lightbox2@2.11.3",
+      "destination": "wwwroot/lib/lightbox2/",
+      "files": [
+        "js/lightbox.min.js",
+        "images/close.png",
+        "images/loading.gif",
+        "images/next.png",
+        "images/prev.png",
+        "css/lightbox.min.css"
+      ]
+    },
+    {
+      "library": "jqueryui@1.13.2",
+      "destination": "wwwroot/lib/jqueryui/",
+      "files": [
+        "jquery-ui.min.js",
+        "themes/base/jquery-ui.min.css"
+      ]
+    }
+  ]
+}

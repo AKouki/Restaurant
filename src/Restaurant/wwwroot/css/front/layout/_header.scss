@@ -1,0 +1,167 @@
+﻿@import "../base/_variables.scss";
+@import "../base/_breakpoints.scss";
+
+header {
+    padding: 23px 0;
+    color: $color-black;
+    overflow: hidden;
+    z-index: 300;
+    font-weight: 500 !important;
+
+    .logo img {
+        display: block;
+    }
+
+    .hamburger {
+        cursor: pointer;
+        display: none;
+
+        span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: $color-black;
+            transition: all 300ms ease-in-out;
+            transform-origin: 2px 1px;
+
+            &:not(:last-child) {
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    &.open .hamburger {
+        .line1 {
+            transform: rotate(45deg);
+        }
+
+        .line2 {
+            opacity: 0;
+        }
+
+        .line3 {
+            transform: rotate(-45deg);
+        }
+    }
+
+    .right-side {
+        display: flex;
+    }
+
+    ul.main-menu {
+        display: flex;
+        align-items: center;
+
+        li {
+            margin-right: 10px;
+
+            a {
+                display: block;
+                padding: 8px 10px;
+                color: inherit;
+                font-size: 14px;
+                font-weight: 600;
+                text-transform: uppercase;
+                transition: color .15s ease-in-out;
+
+                &:hover {
+                    color: $color-secondary;
+                }
+            }
+        }
+    }
+
+    .btn-make-reservation {
+        border: 2px solid $color-secondary;
+    }
+
+    .lang-chooser {
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 50px;
+
+        a {
+            margin: 0 7px;
+            color: inherit;
+            transition: color .15s ease-in-out;
+            position: relative;
+
+            &:hover {
+                color: $color-secondary;
+            }
+
+            &:not(:first-child)::before {
+                content: "";
+                width: 1px;
+                height: 12px;
+                background: $color-black;
+                position: absolute;
+                left: -7px;
+                top: 4px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    header {
+        background: white;
+        padding: 16px 0;
+
+        .hamburger {
+            display: block;
+        }
+
+        .right-side {
+            flex-direction: column;
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .15s ease-in-out;
+        }
+
+        &.open .right-side {
+            max-height: 500px;
+            transition: max-height .25s ease-in-out;
+        }
+
+        ul.main-menu {
+            flex-direction: column;
+            margin: 20px 0;
+
+            li {
+                margin-right: 0;
+                margin-bottom: 5px;
+
+                a {
+                    display: block;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .lang-chooser {
+            margin-left: 0;
+            margin-bottom: 30px;
+            font-size: 16px;
+
+            a {
+                &:not(:first-child)::before {
+                    height: 14px;
+                }
+            }
+        }
+    }
+
+    .home-page header {
+        color: $color-black;
+        position: relative;
+
+        .logo {
+            color: #333;
+        }
+    }
+}

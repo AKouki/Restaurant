@@ -1,0 +1,103 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+}
+
+<div class="footer-columns">
+    <div class="column column-brand">
+        <a asp-area="" asp-page="/Index" asp-route-culture="@requestCultureName" title="Restaurant">
+            <img src="~/images/logo.png" width="145" height="20" alt="Restaurant logo" />
+        </a>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ac turpis turpis. Fusce vestibulum, est mollis.</p>
+        <ul class="socials">
+            <li>
+                <a href="@Settings.Value.FacebookUrl" target="_blank" title="Facebook">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.19795 21.5H13.198V13.4901H16.8021L17.198 9.50977H13.198V7.5C13.198 6.94772 13.6457 6.5 14.198 6.5H17.198V2.5H14.198C11.4365 2.5 9.19795 4.73858 9.19795 7.5V9.50977H7.19795L6.80206 13.4901H9.19795V21.5Z" fill="currentColor" /></svg>
+                </a>
+            </li>
+            <li>
+                <a href="@Settings.Value.InstagramUrl" target="_blank" title="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+            </li>
+            <li>
+                <a href="@Settings.Value.YouTubeUrl" target="_blank" title="Youtube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-youtube"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                </a>
+            </li>
+            <li>
+                <a href="@Settings.Value.TwitterUrl" target="_blank" title="Twitter">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 3C9.10457 3 10 3.89543 10 5V8H16C17.1046 8 18 8.89543 18 10C18 11.1046 17.1046 12 16 12H10V14C10 15.6569 11.3431 17 13 17H16C17.1046 17 18 17.8954 18 19C18 20.1046 17.1046 21 16 21H13C9.13401 21 6 17.866 6 14V5C6 3.89543 6.89543 3 8 3Z" fill="currentColor" /></svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="column column-contact">
+        <h3>@Localizer["Επικοινωνία"]</h3>
+        <ul>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                @Localizer[Settings.Value.ContactAddress ?? ""]
+            </li>
+            <li>
+                <a href="tel:+302101234567">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    @Localizer["Τηλ."] @Settings.Value.ContactPhone1
+                </a>
+            </li>
+            <li>
+                <a href="tel:+306945000000">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    @Localizer["Κιν."] @Settings.Value.ContactPhone2
+                </a>
+            </li>
+            <li>
+                <a href="mailto:contact@restaurant.com">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    Email: @Settings.Value.ContactEmail
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="column column-links">
+        <h3>@Localizer["Χρήσιμοι Σύνδεσμοι"]</h3>
+        <ul>
+            <li>
+                <a asp-area="" asp-page="/Contact" asp-route-culture="@requestCultureName">@Localizer["Επικοινωνία"]</a>
+            </li>
+            <li>
+                <a asp-area="" asp-page="/FAQs" asp-route-culture="@requestCultureName">FAQs</a>
+            </li>
+        </ul>
+    </div>
+    <div class="column column-open-hours">
+        <h3>@Localizer["Ώρες Λειτουργίας"]</h3>
+        <p>@Localizer["Δευτέρα - Παρασκευή<span>10:00 - 21:00</span>"]</p>
+        <p>@Localizer["Σάββατο<span>12:00 - 23:00</span>"]</p>
+    </div>
+</div>
+
+<div class="footer-bottom">
+    <p class="mb-0">Copyright 2022 Restaurant</p>
+    <ul class="legal-links">
+        <li>
+            <a asp-area="" asp-page="/Terms" asp-route-culture="@requestCultureName">@Localizer["Όροι Χρήσης"]</a>
+        </li>
+        <li>
+            <a asp-area="" asp-page="/Privacy" asp-route-culture="@requestCultureName">@Localizer["Πολιτική Απορρήτου"]</a>
+        </li>
+        <li>
+            <a asp-area="" asp-page="/Cookies" asp-route-culture="@requestCultureName">@Localizer["Πολιτική Cookies"]</a>
+        </li>
+    </ul>
+</div>

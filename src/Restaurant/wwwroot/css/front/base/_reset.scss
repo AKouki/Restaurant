@@ -1,0 +1,23 @@
+﻿*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+a,
+a:visited,
+a:hover {
+    text-decoration: none;
+}
+
+input, select, textarea {
+    margin: 0;
+    font-family: inherit;
+}

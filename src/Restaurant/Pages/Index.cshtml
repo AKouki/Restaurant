@@ -1,0 +1,13 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Εστιατόριο στην Αθήνα";
+    ViewData["Description"] = "Εστιατόριο στην Αθήνα - Μοναδικές γεύσεις";
+    ViewData["Keywords"] = "keyword1,keyword2,optional";
+    ViewData["BodyCss"] = "home-page";
+}
+
+<partial name="Home/_Hero" />
+<partial name="Home/_Welcome" />
+@await Component.InvokeAsync("Recommendations")
+@await Component.InvokeAsync("Reviews")

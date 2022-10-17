@@ -1,0 +1,107 @@
+﻿@page
+@model ContactModel
+@{
+    ViewData["Title"] = "Επικοινωνία";
+    ViewData["Description"] = "Επικοινωνήστε μαζί μας";
+    ViewData["ShowPageTitle"] = true;
+}
+
+<div class="contact-container container py-50">
+    <div class="left-side">
+        @if (Model.IsSuccessfullySent)
+        {
+            <div class="success-alert">
+                <p class="fw-700">@Localizer["Ευχαριστούμε για το μήνυμα."]</p>
+                <p class="mb-0">@Localizer["Θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν."]</p>
+            </div>
+        }
+        <div class="contact-form">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger my-0"></div>
+                <input type="hidden" asp-for="Contact.Token" />
+                <div class="w-50">
+                    <label asp-for="Contact.FirstName" class="required"></label>
+                    <input asp-for="Contact.FirstName" class="form-control" />
+                    <span asp-validation-for="Contact.FirstName" class="text-danger"></span>
+                </div>
+                <div class="w-50">
+                    <label asp-for="Contact.LastName" class="required"></label>
+                    <input asp-for="Contact.LastName" class="form-control" />
+                    <span asp-validation-for="Contact.LastName" class="text-danger"></span>
+                </div>
+                <div class="w-50">
+                    <label asp-for="Contact.Email" class="required"></label>
+                    <input asp-for="Contact.Email" class="form-control" />
+                    <span asp-validation-for="Contact.Email" class="text-danger"></span>
+                </div>
+                <div class="w-50">
+                    <label asp-for="Contact.Phone"></label>
+                    <input asp-for="Contact.Phone" class="form-control" />
+                    <span asp-validation-for="Contact.Phone" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="Contact.Message" class="required"></label>
+                    <textarea asp-for="Contact.Message" class="form-control"></textarea>
+                    <span asp-validation-for="Contact.Message" class="text-danger"></span>
+                </div>
+                <div>
+                    <div class="accept-terms-checkbox">
+                        <input asp-for="Contact.AcceptedTerms" />
+                        <label asp-for="Contact.AcceptedTerms" class="fs-14">
+                            @Localizer["AcceptTerms"]
+                        </label>
+                    </div>
+                    <span asp-validation-for="Contact.AcceptedTerms" class="text-danger"></span>
+                </div>
+                <div class="fs-14">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                </div>
+                <div class="form-buttons">
+                    <input type="submit" value="@Localizer["Αποστολή"]" class="btn btn-primary uppercase" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="right-side">
+        <h2>Restaurant</h2>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+        <div>
+            <h3>@Localizer["Επικοινωνήστε"]</h3>
+            <ul>
+                <li>@Localizer[@Settings.Value.ContactAddress ?? ""]</li>
+                <li>@Localizer["Τηλ:"] @Settings.Value.ContactPhone1</li>
+                <li>@Localizer["Κιν:"] @Settings.Value.ContactPhone2</li>
+                <li>Email: <a href="mailto:contact@restaurant.com">@Settings.Value.ContactEmail</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>@Localizer["Ώρες λειτουργίας"]</h3>
+            <p>@Localizer["Δευτέρα - Παρασκευή: 10:00 - 21:00"]</p>
+            <p>@Localizer["Σάββατο: 12:00 - 23:00"]</p>
+            <p>@Localizer["Κυριακή: Κλειστά"]</p>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/custom-validators.js" asp-append-version="true"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=@Model.ReCaptchaSiteKey"></script>
+<script>
+    $("form").submit(function(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+            grecaptcha.execute('@Model.ReCaptchaSiteKey', {action: 'contact'}).then(function(token) {
+                $("#Contact_Token").val(token);
+                if ($("form").valid()) {
+                    e.currentTarget.submit();
+                }
+            });
+        });
+    });
+</script>
+}

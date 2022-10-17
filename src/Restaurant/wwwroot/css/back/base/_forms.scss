@@ -1,0 +1,40 @@
+﻿$form-label-color: #323E4A;
+$form-control-color: #323E4A;
+$form-control-border-color: #dfe5e6;
+$form-control-border-radius: 0.25rem;
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $form-label-color;
+}
+
+.form-control,
+.form-select {
+    color: $form-control-color;
+    border-color: $form-control-border-color;
+    border-radius: $form-control-border-radius;
+}
+
+.table .form-check {
+    margin-bottom: 0;
+    min-height: auto;
+}
+
+.form-check-input {
+    border-color: $form-control-border-color;
+}
+
+form .btn {
+    font-size: 0.875rem;
+}
+
+.account-manage-page {
+    .form-floating {
+        margin: 0.5rem 0;
+    }
+
+    button[type=submit] {
+        margin: 0.5rem 0;
+    }
+}

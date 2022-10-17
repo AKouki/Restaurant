@@ -1,0 +1,117 @@
+﻿@model IEnumerable<RecommendationViewModel>
+
+@{
+    ViewData["Title"] = "Recommendations";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>@ViewData["Title"]</h1>
+    <a class="btn btn-primary btn-sm" asp-action="Create">Create New</a>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Picture</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="sortable">
+                    @if (Model.Count() == 0)
+                    {
+                        <partial name="_TableRowNoData" />
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr data-id="@item.Id" data-level="@item.OrderLevel">
+                            <td width="150">
+                                @{
+                                    var imageUrl = string.IsNullOrEmpty(item.PictureUrl) ? "/images/no-image_gray.png" : $"/uploads/{item.PictureUrl}";
+                                }
+                                <img src="@imageUrl" class="image-thumbnail">
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">@item.Name</a>
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.Price
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a class="btn btn-light btn-sm text-secondary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<partial name="_DeleteConfirmation" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var data = [];
+            $(".sortable").sortable({
+                delay: 50,
+                placeholder: "ui-sortable-placeholder-recommendation",
+                helper: function(event, ui) {
+                    ui.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return ui;
+                },
+                update: function(event, ui) {
+                    $(this).children().each(function(index) {
+                        if ($(this).attr("data-level") != (index + 1)) {
+                            var itemId = parseInt($(this).attr('data-id'));
+
+                            $(this).attr('data-level', (index + 1));
+                            data.push({ ItemId: itemId, ItemLevel: (index + 1) });
+                        }
+                    });
+                },
+                stop: function(event, ui) {
+                    if (data.length > 0) {
+                        $.ajax({
+                            url: '/Admin/Recommendations/UpdateOrderLevel',
+                            method: 'POST',
+                            dataType: 'json',
+                            data: { data },
+                            complete: function(result) {
+                                data = [];
+                            }
+                        });
+                    }
+                }
+            }).disableSelection();
+        });
+    </script>
+}

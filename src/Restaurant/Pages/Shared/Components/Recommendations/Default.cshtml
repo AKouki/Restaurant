@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using Restaurant.Models
+@model IEnumerable<Recommendation>
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+}
+
+<div class="section section-recommendations">
+    <div class="container">
+        <h2 class="section-title">@Localizer["Σας προτείνουμε"]</h2>
+        <p class="section-text">@Localizer["Απολαυστικές προτάσεις από τους Chefs μας"]</p>
+        <div class="flex justify-space-between flex-wrap recommendations">
+            @foreach (var item in Model)
+            {
+                <div class="recommended-item">
+                    @{
+                        var imageUrl = string.IsNullOrEmpty(item.PictureUrl) ? "/images/no-image.png" : $"/uploads/{item.PictureUrl}";
+                        var name = requestCultureName == "en" && !string.IsNullOrEmpty(item.NameEn) ? item.NameEn : item.Name;
+                        var description = requestCultureName == "en" && !string.IsNullOrEmpty(item.DescriptionEn) ? item.DescriptionEn : item.Description;
+                    }
+                    <img src="@imageUrl" alt="Recommended Item - @item.Name"/>
+                    <div class="item-details">
+                        <p class="title">@name</p>
+                        <p class="description">@description</p>
+                        <p class="price">@item.Price&euro;</p>
+                    </div>
+                </div>
+            }
+            <div class="flex justify-content-center w-100">
+                <a asp-area="" asp-page="/Menu" asp-route-culture="@requestCultureName" class="btn btn-secondary-outlined uppercase">
+                    @Localizer["Δείτε το Μενού"]
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

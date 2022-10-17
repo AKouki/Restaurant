@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using Restaurant.Extensions
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCultureName = requestCulture?.RequestCulture.Culture.Name == "el" ? "" : "en";
+    var localizedTitle = Localizer[ViewData["Title"]?.ToString() ?? ""].Value;
+    var localizedDescription = Localizer[ViewData["Description"]?.ToString() ?? ""].Value;
+    var absoluteUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}";
+}
+<!DOCTYPE html>
+<html lang="@(requestCulture?.RequestCulture.Culture.Name)">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="alternate" hreflang="el" href="https://localhost:7234/" />
+    <link rel="alternate" hreflang="en" href="https://localhost:7234/en/" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/logo1.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon.ico" />
+    <link rel="manifest" href="~/manifest.json" />
+    @*<link rel="mask-icon" href="~/safari-pinned-tab.svg" />*@
+    <meta name="msapplication-TileColor" content="#f50000" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>@localizedTitle - Restaurant</title>
+    @if (!string.IsNullOrEmpty(localizedDescription))
+    {
+        <meta name="description" content="@localizedDescription" />
+    }
+    @if (!string.IsNullOrEmpty(@ViewData["Keywords"]?.ToString()))
+    {
+        <meta name="keywords" content="@ViewData["Keywords"]" />
+    }
+    <meta property="og:locale" content="@(requestCulture?.RequestCulture.Culture.Name)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Restaurant" />
+    <meta property="og:url" content="@absoluteUrl" />
+    <meta property="og:title" content="@localizedTitle" />
+    @if (!string.IsNullOrEmpty(localizedDescription))
+    {
+        <meta property="og:description" content="@localizedDescription" />
+    }
+    <meta property="og:image" content="https://localhost:7234/images/og_image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <link rel="canonical" href="@absoluteUrl" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @await RenderSectionAsync("Head", required: false)
+    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="~/css/front/Site.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/Restaurant.styles.css" asp-append-version="true" />*@
+</head>
+<body class="@ViewData["BodyCss"]">
+    <header>
+        <div class="container flex justify-space-between align-items-center flex-wrap">
+            <div class="logo">
+                <a asp-area="" asp-page="/Index" asp-route-culture="@requestCultureName" title="Restaurant - A great food and a great place">
+                    <img src="/images/logo.png" width="145" height="20" alt="Restaurant logo" />
+                </a>
+            </div>
+            <div class="hamburger">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </div>
+            <div class="right-side">
+                <nav class="main-nav">
+                    <ul class="main-menu">
+                        <li>
+                            <a asp-area="" asp-page="/Index" asp-route-culture="@requestCultureName">@Localizer["Αρχική"]</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/About" asp-route-culture="@requestCultureName">@Localizer["Το Εστιατόριο"]</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Menu" asp-route-culture="@requestCultureName">@Localizer["Μενού"]</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Gallery" asp-route-culture="@requestCultureName">@Localizer["Gallery"]</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Contact" asp-route-culture="@requestCultureName">@Localizer["Επικοινωνία"]</a>
+                        </li>
+                        <li>
+                            <a class="btn-make-reservation" asp-area="" asp-page="/Reservation/Index" asp-route-culture="@requestCultureName">@Localizer["Κάντε Κράτηση"]</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="lang-chooser">
+                    <a asp-route-culture="">GR</a>
+                    <a asp-route-culture="en">EN</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        @{
+            var showPageTitle = ViewData["ShowPageTitle"] as bool? ?? false;
+            if (showPageTitle)
+            {
+                <partial name="_PageTitle" model="@localizedTitle" />
+            }
+        }
+        @RenderBody()
+    </main>
+
+    <partial name="_CookieConsentPartial" />
+
+    <footer class="footer">
+        <div class="container">
+            <partial name="_Footer" />
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/OwlCarousel2/owl.carousel.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿@page
+@model GalleryModel
+@{
+    ViewData["Title"] = "Gallery";
+    ViewData["Description"] = "Gallery";
+    ViewData["ShowPageTitle"] = true;
+}
+
+<div class="gallery-container container py-50">
+    <div class="image-gallery">
+        <a class="image-link" href="~/images/gallery/demo1.jpg" data-lightbox="gallery">
+            <img src="~/images/gallery/demo1_thumbnail.jpg" alt="Gallery Image" />
+        </a>
+        <a class="image-link" href="~/images/gallery/demo2.jpg" data-lightbox="gallery">
+            <img src="~/images/gallery/demo2_thumbnail.jpg" alt="Gallery Image" />
+        </a>
+        <a class="image-link" href="~/images/gallery/demo3.jpg" data-lightbox="gallery">
+            <img src="~/images/gallery/demo3_thumbnail.jpg" alt="Gallery Image" />
+        </a>
+        <a class="image-link" href="~/images/gallery/demo4.jpg" data-lightbox="gallery">
+            <img src="~/images/gallery/demo4_thumbnail.jpg" alt="Gallery Image" />
+        </a>
+        <a class="image-link" href="~/images/gallery/demo5.jpg" data-lightbox="gallery">
+            <img src="~/images/gallery/demo5_thumbnail.jpg" alt="Gallery Image" />
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/lightbox2/js/lightbox.min.js" asp-append-version="true"></script>
+    <script>
+        lightbox.option({
+            'fadeDuration': 500,
+            'imageFadeDuration': 500,
+            'resizeDuration': 0,
+            'albumLabel': "%1/%2"
+        });
+    </script>
+}
+
+    @section Head {
+    <link rel="stylesheet" href="~/lib/lightbox2/css/lightbox.min.css" />
+}

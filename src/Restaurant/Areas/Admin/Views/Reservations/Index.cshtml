@@ -1,0 +1,532 @@
+﻿@model PaginatedList<Reservation>
+
+@{
+    ViewData["Title"] = "Index";
+
+    // Pagination info
+    var fromIndex = Model.PageNumber - 2;
+    var toIndex = Model.PageNumber + 2;
+    var pagesPerTime = 5;
+
+    if (Model.TotalPages < pagesPerTime)
+    {
+        fromIndex = 1;
+        toIndex = Model.TotalPages;
+    }
+    else
+    {
+        if (Model.PageNumber < 3)
+        {
+            fromIndex = 1;
+            toIndex = pagesPerTime;
+        }
+        else if (Model.PageNumber > Model.TotalPages - 2)
+        {
+            fromIndex = Model.TotalPages - (pagesPerTime - 1);
+            toIndex = Model.TotalPages;
+        }
+    }
+
+    // Sorting CSS classes
+    var reservationDateSort = "";
+    var creationDateSort = "";
+
+    switch (ViewData["CurrentSort"]?.ToString())
+    {
+        case "reservationDate_asc":
+            reservationDateSort = "sorting_asc";
+            break;
+        case "reservationDate_desc":
+            reservationDateSort = "sorting_desc";
+            break;
+        case "creationDate_asc":
+            creationDateSort = "sorting_asc";
+            break;
+        case "creationDate_desc":
+            creationDateSort = "sorting_desc";
+            break;
+        default:
+            reservationDateSort = "sorting_asc";
+            break;
+    }
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Reservations</h1>
+    <a class="btn btn-primary btn-sm" asp-action="Create">Create New</a>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="filters-container">
+            <div class="position-relative search-container text-muted">
+                <form asp-action="Index" method="get" id="searchForm" class="w-100">
+                    <input type="search" name="searchString" value="@ViewData["searchString"]" class="form-control fs-14" placeholder="Search..." />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </form>
+                @if (!string.IsNullOrEmpty(ViewData["searchString"]?.ToString()))
+                {
+                    <a class="ms-2 fs-14" asp-action="Index" asp-route-sortOrder="">Reset</a>
+                }
+            </div>
+            <div class="filters">
+                <div class="dropdown">
+                    <a class="btn btn-light fs-14 text-capitalize d-flex justify-content-between align-items-center@(string.IsNullOrEmpty(ViewData["Status"]?.ToString()) ? "" : " active")" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        @(string.IsNullOrEmpty(ViewData["Status"]?.ToString()) ? "All" : ViewData["Status"])
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-reservationDate="@ViewData["ReservationDate"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">All</a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="pending"
+                               asp-route-reservationDate="@ViewData["ReservationDate"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">Pending</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="new"
+                               asp-route-reservationDate="@ViewData["ReservationDate"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">New</a>
+                        </li>
+                        <li class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="past"
+                               asp-route-reservationDate="@ViewData["ReservationDate"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">Past</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn btn-light fs-14 text-capitalize d-flex justify-content-between align-items-center@(string.IsNullOrEmpty(ViewData["ReservationDate"]?.ToString()) ? "" : " active")" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        @(string.IsNullOrEmpty(ViewData["ReservationDate"]?.ToString()) ? "All Time" : ViewData["ReservationDate"])
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <input type="hidden" class="datepicker" />
+                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="@ViewData["Status"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">All Time</a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="@ViewData["Status"]"
+                               asp-route-reservationDate="@DateTime.Today.ToString("dd-MM-yyyy")"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">Today</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="@ViewData["Status"]"
+                               asp-route-reservationDate="@DateTime.Today.AddDays(1).ToString("dd-MM-yyyy")"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">Tommorow</a>
+                        </li>
+                        <li class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item select-date"
+                               asp-action="Index"
+                               asp-route-searchString="@ViewData["SearchString"]"
+                               asp-route-status="@ViewData["Status"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]">Select date</a>
+                        </li>
+                    </ul>
+                </div>
+                @{
+                    var showClearFiltersBtn = !string.IsNullOrEmpty(ViewData["Status"]?.ToString()) || !string.IsNullOrEmpty(ViewData["ReservationDate"]?.ToString());
+                    if (showClearFiltersBtn)
+                    {
+                        <a class="fs-14 btn-clear-filters"
+                           asp-action="Index"
+                           asp-route-searchString="@ViewData["SearchString"]"
+                           asp-route-status=""
+                           asp-route-reservationDate=""
+                           asp-route-sortOrder="@ViewData["CurrentSort"]">Clear all filters</a>
+                    }
+                }
+            </div>
+            <div class="bulk-actions d-none">
+                <span class="fs-14 text-selected-items">Selected </span>
+                <a class="btn btn-outline-danger btn-sm ms-2 btn-bulk-delete" data-bs-toggle="modal" data-bs-target="#bulkDeleteModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    Delete
+                </a>
+                <a class="btn btn-outline-success btn-sm ms-1 btn-bulk-approve">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Approve
+                </a>
+                <a class="btn btn-outline-warning btn-sm ms-1 btn-bulk-disapprove">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Disapprove
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="form-check">
+                                <input class="form-check-input fs-16" type="checkbox" value="" id="selectAllCheckbox">
+                            </div>
+                        </th>
+                        <th>Id</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th class="sorting @reservationDateSort">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["ReservationDateSort"]"
+                               asp-route-status="@ViewData["Status"]"
+                               asp-route-reservationDate="@ViewData["ReservationDate"]"
+                               asp-route-searchString="@ViewData["SearchString"]">Reservation Date</a>
+                        </th>
+                        <th>Guests</th>
+                        <th class="sorting @creationDateSort">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CreationDateSort"]"
+                               asp-route-status="@ViewData["Status"]"
+                               asp-route-reservationDate="@ViewData["ReservationDate"]"
+                               asp-route-searchString="@ViewData["SearchString"]">Created At</a>
+                        </th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <partial name="_TableRowNoData" />
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td width="50">
+                                <div class="form-check">
+                                    <input class="form-check-input fs-16" type="checkbox" value="@item.Id">
+                                </div>
+                            </td>
+                            <td>
+                                <span class="fw-500">@item.Id.ToString("D4")</span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a class="btn-show-details" data-id="@item.Id" data-is-read="@item.IsRead">@item.FirstName @item.LastName</a>
+                                    @if (!item.IsRead)
+                                    {
+                                        <span class="badge rounded-pill bg-info ms-1" data-id="@item.Id">New</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <a href="mailto:@item.Email">@item.Email</a>
+                            </td>
+                            <td>
+                                @item.Phone
+                            </td>
+                            <td>
+                                @item.ReservationDateTime.ToRelativeString()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Guests)
+                            </td>
+                            <td>
+                                @item.CreatedAt.ToString("dd/MM/yyyy hh:mm tt")
+                            </td>
+                            <td>
+                                @if (item.IsConfirmed)
+                                {
+                                    <span class="badge rounded-pill bg-success">Confirmed</span>
+
+                                }
+                                else
+                                {
+                                    <span class="badge rounded-pill bg-warning">Pending</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a class="btn btn-light btn-sm text-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </li>
+                                        <li class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item btn-approve" data-id="@item.Id">Approve</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item btn-approve" data-id="@item.Id" data-notify="true">Approve and notify</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item btn-disapprove" data-id="@item.Id">Disapprove</a>
+                                        </li>
+                                        <li class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                <li>
+                    <a asp-action="Index"
+                       asp-route-searchString="@ViewData["SearchString"]"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-status="@ViewData["Status"]"
+                       asp-route-reservationDate="@ViewData["ReservationDate"]"
+                       asp-route-pageNumber="@(Model.PageNumber - 1)"
+                       class="prev @(!Model.HasPrevious ? "disabled" : "")">
+                        Previous
+                    </a>
+                </li>
+                @for (int i = fromIndex; i <= toIndex; i++)
+                {
+                    <li>
+                        @if (Model.PageNumber == i)
+                        {
+                            <a class="current">@i</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Index"
+                       asp-route-searchString="@ViewData["SearchString"]"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-status="@ViewData["Status"]"
+                       asp-route-reservationDate="@ViewData["ReservationDate"]"
+                       asp-route-pageNumber="@i">@i</a>
+                        }
+                    </li>
+                }
+                <li>
+                    <a asp-action="Index"
+                       asp-route-searchString="@ViewData["SearchString"]"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-status="@ViewData["Status"]"
+                       asp-route-reservationDate="@ViewData["ReservationDate"]"
+                       asp-route-pageNumber="@(Model.PageNumber + 1)"
+                       class="next @(!Model.HasNext ? "disabled" : "")">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<partial name="_DeleteConfirmation" />
+<partial name="_BulkDeleteConfirmation" />
+<div class="modal-wrapper"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var selectedIds = [];
+
+            $(".btn-approve").on("click", function() {
+                var id = $(this).data("id");
+                var sendEmail = $(this).data("notify") ?? false;
+
+                var token = $("input[name='__RequestVerificationToken']").val();
+
+                $.ajax({
+                    method: "POST",
+                    url: `/Admin/Reservations/${id}/Approve`,
+                    data: {
+                        sendEmail: sendEmail,
+                        __RequestVerificationToken: token
+                    },
+                    success: function() {
+                        location.reload();
+                    }
+                });
+            });
+
+            $(".btn-disapprove").on("click", function() {
+                var id = $(this).data("id");
+
+                var token = $("input[name='__RequestVerificationToken']").val();
+
+                $.ajax({
+                    method: "POST",
+                    url: `/Admin/Reservations/${id}/Disapprove`,
+                    data: {
+                        __RequestVerificationToken: token
+                    },
+                    success: function() {
+                        location.reload();
+                    }
+                });
+            });
+
+            $("#selectAllCheckbox").on("change", function() {
+                $('.table tbody input[type="checkbox"]').prop("checked", this.checked);
+
+                // Highlight all selected rows
+                $(".table tbody tr").toggleClass("selected", this.checked);
+
+                showBulkActions();
+            });
+
+            $('.table tbody input[type="checkbox"]').on("change", function() {
+                var totalUnchecked = $('.table tbody input[type="checkbox"]').not(":checked").length;
+                $("#selectAllCheckbox").prop("checked", totalUnchecked == 0);
+
+                // Highlight selected row
+                $(this).closest("tr").toggleClass("selected", this.checked);
+
+                showBulkActions();
+            });
+
+            function updateSelectedIds() {
+                selectedIds = [];
+                $('.table tbody input[type="checkbox"]:checked').each(function(index, element) {
+                    selectedIds.push(element.value);
+                });
+            }
+
+            function showBulkActions() {
+                var selectedItems = $('.table tbody input[type="checkbox"]:checked').length;
+                if (selectedItems > 0)
+                    $(".bulk-actions").removeClass("d-none");
+                else
+                    $(".bulk-actions").addClass("d-none");
+
+                $(".text-selected-items").text(selectedItems + " Selected")
+            }
+
+            $("#bulkDeleteModal #btn-submit").on("click", function(e) {
+                e.preventDefault();
+
+                updateSelectedIds();
+                var token = $("input[name='__RequestVerificationToken']").val();
+
+                if (selectedIds.length > 0) {
+                    $.ajax({
+                        method: "POST",
+                        url: '@Url.Action("BulkDelete")',
+                        data: {
+                            reservationIds: selectedIds,
+                            __RequestVerificationToken: token
+                        },
+                        success: function() {
+                            location.reload();
+                        },
+                        complete: function() {
+                            selectedIds = [];
+                        }
+                    });
+                }
+            });
+
+            $(".btn-bulk-approve").on("click", function() {
+                updateSelectedIds();
+
+                var token = $("input[name='__RequestVerificationToken']").val();
+
+                $.ajax({
+                    method: "POST",
+                    url: '@Url.Action("BulkApprove")',
+                    data: {
+                        reservationIds: selectedIds,
+                        __RequestVerificationToken: token
+                    },
+                    success: function() {
+                        location.reload();
+                    },
+                    complete: function() {
+                        selectedIds = [];
+                    }
+                });
+            });
+
+            $(".btn-bulk-disapprove").on("click", function() {
+                updateSelectedIds();
+
+                var token = $("input[name='__RequestVerificationToken']").val();
+
+                $.ajax({
+                    method: "POST",
+                    url: '@Url.Action("BulkDisapprove")',
+                    data: {
+                        reservationIds: selectedIds,
+                        __RequestVerificationToken: token
+                    },
+                    success: function() {
+                        location.reload();
+                    },
+                    complete: function() {
+                        selectedIds = [];
+                    }
+                });
+            });
+
+            $(".datepicker").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+
+            $(".datepicker").on("change", function() {
+                var value = $(this).val();
+                var href = $(".select-date").attr("href");
+
+                if (href.indexOf('?') > -1)
+                    window.location.href = href + `&reservationDate=${value.replaceAll("/", "-")}`;
+                else
+                    window.location.href = href + `?reservationDate=${value.replaceAll("/", "-")}`;
+
+            });
+
+            $(".select-date").on("click", function(e) {
+                e.preventDefault();
+                $(".datepicker").datepicker("show");
+            });
+
+            var debounceTimer;
+            $(window).resize(function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function() {
+                    if ($("#ui-datepicker-div").is(":visible")) {
+                        $(".datepicker").datepicker("hide");
+                    }
+                }, 100);
+            });
+        });
+    </script>
+}

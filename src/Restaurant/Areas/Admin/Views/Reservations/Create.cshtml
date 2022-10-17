@@ -1,0 +1,58 @@
+﻿@model ReservationViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add a new Reservation</h1>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <form asp-action="Create" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-6">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label asp-for="Phone" class="form-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="ReservationDateTime" class="form-label"></label>
+                <input asp-for="ReservationDateTime" class="form-control" />
+                <span asp-validation-for="ReservationDateTime" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Guests" class="form-label"></label>
+                <input asp-for="Guests" class="form-control" />
+                <span asp-validation-for="Guests" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Notes" class="form-label"></label>
+                <textarea asp-for="Notes" class="form-control no-resize" placeholder="Enter notes here..." rows="5"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-light" asp-action="Index">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

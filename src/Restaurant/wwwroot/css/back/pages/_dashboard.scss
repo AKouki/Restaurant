@@ -1,0 +1,47 @@
+﻿$color1: #e4f0fa;
+$color2: #faf5df;
+$color3: #dcf2fa;
+$color4: #d3f2d5;
+
+$icon-width: 64px;
+$icon-svg-width: $icon-width * 0.5;
+$icon-border-radius: 50%;
+$stroke-width: 1.7;
+
+.stats {
+    .icon {
+        width: $icon-width;
+        height: $icon-width;
+        min-width: $icon-width;
+        min-height: $icon-width;
+        border-radius: $icon-border-radius;
+        /*background: $color1 !important;*/
+
+        svg {
+            width: $icon-svg-width;
+            height: $icon-svg-width;
+            stroke-width: $stroke-width;
+            /*color: darken($color1, 25%) !important;*/
+        }
+    }
+
+    .icon-1 {
+        background: $color1;
+        color: darken($color1, 25%);
+    }
+
+    .icon-2 {
+        background: $color2;
+        color: darken($color2, 25%);
+    }
+
+    .icon-3 {
+        background: $color3;
+        color: darken($color3, 25%);
+    }
+
+    .icon-4 {
+        background: $color4;
+        color: darken($color4, 25%);
+    }
+}

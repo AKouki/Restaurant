@@ -1,0 +1,70 @@
+﻿@model ReviewViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <form asp-action="Edit" class="row g-3 position-relative">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <partial name="_LanguageNavTabs" />
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="default-tab-pane" role="tabpanel" aria-labelledby="default-tab" tabindex="0">
+                    <div class="col-12">
+                        <label asp-for="Text" class="form-label"></label>
+                        <textarea asp-for="Text" class="form-control" placeholder="Enter review text here..." rows="5"></textarea>
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label asp-for="ReviewerName" class="form-label"></label>
+                        <input asp-for="ReviewerName" class="form-control" />
+                        <span asp-validation-for="ReviewerName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="english-tab-pane" role="tabpanel" aria-labelledby="english-tab" tabindex="0">
+                    <div class="col-12">
+                        <label asp-for="TextEn" class="form-label"></label>
+                        <textarea asp-for="TextEn" class="form-control" placeholder="Enter review text here..." rows="5"></textarea>
+                        <span asp-validation-for="TextEn" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label asp-for="ReviewerNameEn" class="form-label"></label>
+                        <input asp-for="ReviewerNameEn" class="form-control" />
+                        <span asp-validation-for="ReviewerNameEn" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <label asp-for="Rating" class="form-label"></label>
+                <select asp-for="Rating" class="form-select">
+                    <option selected>Please select</option>
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input asp-for="IsPublished" class="form-check-input" />
+                    <label asp-for="IsPublished" class="form-check-label"></label>
+                </div>
+            </div>
+            <div class="col-12">
+                <input type="submit" value="Save changes" class="btn btn-primary" />
+                <a class="btn btn-light" asp-action="Index">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

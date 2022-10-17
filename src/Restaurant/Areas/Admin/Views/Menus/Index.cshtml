@@ -1,0 +1,139 @@
+﻿@model IEnumerable<MenuViewModel>
+
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>@ViewData["Title"]</h1>
+    <a class="btn btn-primary btn-sm" asp-action="Create">Create New</a>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>Items</th>
+                        <th>Published</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="sortable">
+                    @if (Model.Count() == 0)
+                    {
+                        <partial name="_TableRowNoData" />
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr data-id="@item.Id" data-level="@item.OrderLevel">
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id">
+                                    <span>@item.Name</span>
+                                </a>
+                            </td>
+                            <td>@item.MenuItemsCount</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="@item.IsPublished" data-id="@item.Id" />
+                                </div>
+                            </td>
+                            <td width="100">
+                                <div class="dropdown">
+                                    <a class="btn btn-light btn-sm text-secondary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<partial name="_DeleteConfirmation" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var data = [];
+            $(".sortable").sortable({
+                delay: 50,
+                placeholder: "ui-sortable-placeholder",
+                helper: function(event, ui) {
+                    ui.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return ui;
+                },
+                update: function(event, ui) {
+                    $(this).children().each(function(index) {
+                        if ($(this).attr("data-level") != (index + 1)) {
+                            var itemId = parseInt($(this).attr('data-id'));
+
+                            $(this).attr('data-level', (index + 1));
+                            data.push({ ItemId: itemId, ItemLevel: (index + 1) });
+                        }
+                    });
+                },
+                stop: function(event, ui) {
+                    if (data.length > 0) {
+                        $.ajax({
+                            url: '/Admin/Menus/UpdateOrderLevel',
+                            method: 'POST',
+                            dataType: 'json',
+                            data: { data },
+                            complete: function(result) {
+                                data = [];
+                            }
+                        });
+                    }
+                }
+            }).disableSelection();
+
+            $(".form-check-input").on("change", function() {
+                var id = $(this).data("id");
+                var value = $(this).prop("checked");
+                $(this).prop("disabled", true);
+                var checkbox = $(this);
+
+                var url = value ?
+                    `/Admin/Menus/${id}/Publish` :
+                    `/Admin/Menus/${id}/Unpublish`;
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    error: function() {
+                        checkbox.prop("checked", !value);
+                    },
+                    complete: function() {
+                        checkbox.prop("disabled", false);
+                    }
+                });
+            });
+        });
+    </script>
+}

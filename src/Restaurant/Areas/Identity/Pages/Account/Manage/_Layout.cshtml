@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Manage your account</h1>
+<h6>Change your account settings</h6>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9 account-manage-page">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
