@@ -13,8 +13,8 @@
             <span class="avatar me-2">A</span>
             <a class="btn-manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 <div class="d-flex flex-column">
-                    <span class="fs-14 fw-500">@user.FullName</span>
-                    <span class="fs-14">@user.UserName</span>
+                    <span class="fs-14 fw-500">@user?.FullName</span>
+                    <span class="fs-14">@user?.UserName</span>
                 </div>
             </a>
 

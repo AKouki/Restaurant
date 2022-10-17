@@ -11,6 +11,11 @@
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-12">
+                <div class="alert alert-warning" role="alert">
+                    Disabled for security reasons.
+                </div>
+            </div>
+            <div class="col-12 mt-0">
                 <label asp-for="Input.FullName" class="form-label"></label>
                 <input asp-for="Input.FullName" class="form-control" autocomplete="username" aria-required="true" />
                 <span asp-validation-for="Input.FullName" class="text-danger"></span>
@@ -31,7 +36,7 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="col-12">
-                <button id="registerSubmit" type="submit" class="mt-2 w-100 btn btn-primary">Sign up</button>
+                <button id="registerSubmit" type="submit" class="mt-2 w-100 btn btn-primary disabled">Sign up</button>
             </div>
             <div>
                 <p class="fs-14">

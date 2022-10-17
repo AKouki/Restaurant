@@ -55,8 +55,13 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="col-12">
+                <div class="alert alert-warning" role="alert">
+                    Picture upload is disabled for security reasons.
+                </div>
+            </div>
+            <div class="col-12 mt-0">
                 <label asp-for="Picture" class="form-label"></label>
-                <input asp-for="Picture" accept=".jpg,.jpeg,.png" class="form-control" />
+                <input asp-for="Picture" accept=".jpg,.jpeg,.png" class="form-control disabled" />
                 <span asp-validation-for="Picture" class="text-danger"></span>
                 <div class="form-text">Allowed file types: .jpg, .jpeg, .png. Maximum file size: 1MB.</div>
             </div>

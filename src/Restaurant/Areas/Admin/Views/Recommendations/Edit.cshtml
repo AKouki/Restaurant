@@ -44,6 +44,11 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="col-12">
+                <div class="alert alert-warning" role="alert">
+                    Picture upload is disabled for security reasons.
+                </div>
+            </div>
+            <div class="col-12 mt-0">
                 <label asp-for="Picture" class="form-label"></label>
                 <input asp-for="Picture" accept=".jpg,.jpeg,.png" class="form-control d-none" />
                 <div class="d-flex">
@@ -59,7 +64,7 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column justify-content-center mx-4">
-                        <div class="d-flex">
+                        <div class="d-flex disabled">
                             <label for="Picture">
                                 <span class="btn btn-outline-primary btn-sm me-2 btn-update-picture">Update</span>
                             </label>
@@ -92,53 +97,53 @@
             });
 
             $("input[Name=Picture]").on("change", function () {
-                if (this.files.length > 0) {
-                    var formData = new FormData();
-                    formData.append("file", this.files[0]);
+                //if (this.files.length > 0) {
+                //    var formData = new FormData();
+                //    formData.append("file", this.files[0]);
 
-                    var token = $("input[name='__RequestVerificationToken']").val();
+                //    var token = $("input[name='__RequestVerificationToken']").val();
 
-                    $.ajax({
-                        method: "POST",
-                        url: '@Url.Action("UpdatePicture", new { id = @Model.Id })',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        headers: {
-                            RequestVerificationToken: token,
-                        },
-                        success: function (response) {
-                            $(".picture").attr("src", "/uploads/" + response);
-                            $(".btn-remove-picture").removeClass("disabled");
-                            $(".picture-validation-error").addClass("d-none");
-                        },
-                        error: function (response) {
-                            $(".picture-validation-error").removeClass("d-none");
-                        },
-                        complete: function () {
-                            $("input[Name=Picture]").val("");
-                        }
-                    });
-                }
+                //    $.ajax({
+                //        method: "POST",
+                //        url: '@Url.Action("UpdatePicture", new { id = @Model.Id })',
+                //        data: formData,
+                //        contentType: false,
+                //        processData: false,
+                //        headers: {
+                //            RequestVerificationToken: token,
+                //        },
+                //        success: function (response) {
+                //            $(".picture").attr("src", "/uploads/" + response);
+                //            $(".btn-remove-picture").removeClass("disabled");
+                //            $(".picture-validation-error").addClass("d-none");
+                //        },
+                //        error: function (response) {
+                //            $(".picture-validation-error").removeClass("d-none");
+                //        },
+                //        complete: function () {
+                //            $("input[Name=Picture]").val("");
+                //        }
+                //    });
+                //}
             });
 
             $(".btn-remove-picture").on("click", function (e) {
                 e.preventDefault();
 
-                var token = $("input[name='__RequestVerificationToken']").val();
+                //var token = $("input[name='__RequestVerificationToken']").val();
 
-                $.ajax({
-                    method: "POST",
-                    url: '@Url.Action("RemovePicture", new { id = @Model.Id })',
-                    data: {
-                        __RequestVerificationToken: token
-                    },
-                    success: function (response) {
-                        $(".picture").attr("src", "/images/no-image_gray.png");
-                        $(".btn-remove-picture").addClass("disabled");
-                        $(".picture-validation-error").addClass("d-none");
-                    }
-                });
+                //$.ajax({
+                //    method: "POST",
+                //    url: '@Url.Action("RemovePicture", new { id = @Model.Id })',
+                //    data: {
+                //        __RequestVerificationToken: token
+                //    },
+                //    success: function (response) {
+                //        $(".picture").attr("src", "/images/no-image_gray.png");
+                //        $(".btn-remove-picture").addClass("disabled");
+                //        $(".picture-validation-error").addClass("d-none");
+                //    }
+                //});
             });
         });
     </script>

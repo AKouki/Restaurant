@@ -12,13 +12,18 @@
         <form id="account" method="post" class="row g-2">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-12">
+                <div class="alert alert-info" role="alert">
+                    Use: <span class="fw-500">admin@admin.com/admin</span>
+                </div>
+            </div>
+            <div class="col-12">
                 <label asp-for="Input.Email" class="form-label"></label>
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input asp-for="Input.Email" class="form-control" value="admin@admin.com" autocomplete="username" aria-required="true" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="col-12 mt-3">
                 <label asp-for="Input.Password" class="form-label"></label>
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                <input asp-for="Input.Password" class="form-control" value="admin" autocomplete="current-password" aria-required="true" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="col-12 mt-3">

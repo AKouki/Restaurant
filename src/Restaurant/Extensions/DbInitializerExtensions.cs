@@ -1,5 +1,6 @@
 ﻿using Restaurant.Data.DataSeeding;
 using Restaurant.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Restaurant.Extensions
 {
@@ -13,8 +14,9 @@ namespace Restaurant.Extensions
                 {
                     var services = scope.ServiceProvider;
                     var context = services.GetRequiredService<ApplicationDbContext>();
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-                    DbInitializer.Initialize(context).GetAwaiter().GetResult();
+                    DbInitializer.Initialize(context, userManager).GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {

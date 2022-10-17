@@ -84,19 +84,19 @@ namespace Restaurant.Areas.Admin.Controllers
                     Price = model.Price
                 };
 
-                if (model.Picture != null)
-                {
-                    if (!_fileValidator.IsValid(model.Picture))
-                    {
-                        ModelState.AddModelError("", "Invalid file.");
-                        return View(model);
-                    }
+                //if (model.Picture != null)
+                //{
+                //    if (!_fileValidator.IsValid(model.Picture))
+                //    {
+                //        ModelState.AddModelError("", "Invalid file.");
+                //        return View(model);
+                //    }
 
-                    var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(model.Picture.FileName);
-                    var uploaded = await UploadPictureAsync(model.Picture, fileName);
-                    if (uploaded)
-                        newRecommendation.PictureUrl = fileName;
-                }
+                //    var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(model.Picture.FileName);
+                //    var uploaded = await UploadPictureAsync(model.Picture, fileName);
+                //    if (uploaded)
+                //        newRecommendation.PictureUrl = fileName;
+                //}
 
                 _db.Recommendations.Add(newRecommendation);
                 await _db.SaveChangesAsync();
@@ -188,24 +188,24 @@ namespace Restaurant.Areas.Admin.Controllers
             if (recommendation == null)
                 return NotFound();
 
-            if (!_fileValidator.IsValid(file))
-                return BadRequest();
+            //if (!_fileValidator.IsValid(file))
+            //    return BadRequest();
 
-            // Upload the new picture
-            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
-            var uploaded = await UploadPictureAsync(file, fileName);
-            if (uploaded)
-            {
-                // Delete the previous picture
-                if (!string.IsNullOrEmpty(recommendation.PictureUrl))
-                    DeletePicture(recommendation.PictureUrl);
+            //// Upload the new picture
+            //var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+            //var uploaded = await UploadPictureAsync(file, fileName);
+            //if (uploaded)
+            //{
+            //    // Delete the previous picture
+            //    if (!string.IsNullOrEmpty(recommendation.PictureUrl))
+            //        DeletePicture(recommendation.PictureUrl);
 
-                // Update database
-                recommendation.PictureUrl = fileName;
+            //    // Update database
+            //    recommendation.PictureUrl = fileName;
 
-                _db.Recommendations.Update(recommendation);
-                await _db.SaveChangesAsync();
-            }
+            //    _db.Recommendations.Update(recommendation);
+            //    await _db.SaveChangesAsync();
+            //}
 
             return Ok(recommendation.PictureUrl);
         }
@@ -218,14 +218,14 @@ namespace Restaurant.Areas.Admin.Controllers
             if (recommendation == null || string.IsNullOrEmpty(recommendation.PictureUrl))
                 return NotFound();
 
-            var deleted = DeletePicture(recommendation.PictureUrl);
-            if (deleted)
-            {
-                recommendation.PictureUrl = null;
+            //var deleted = DeletePicture(recommendation.PictureUrl);
+            //if (deleted)
+            //{
+            //    recommendation.PictureUrl = null;
 
-                _db.Recommendations.Update(recommendation);
-                await _db.SaveChangesAsync();
-            }
+            //    _db.Recommendations.Update(recommendation);
+            //    await _db.SaveChangesAsync();
+            //}
 
             return Ok();
         }
