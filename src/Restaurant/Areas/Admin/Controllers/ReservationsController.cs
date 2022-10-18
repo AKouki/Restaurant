@@ -108,9 +108,10 @@ namespace Restaurant.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            var now = DateTime.Now;
             var model = new ReservationViewModel()
             {
-                ReservationDateTime = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm tt")),
+                ReservationDateTime = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0),
                 Guests = 1
             };
 
@@ -151,7 +152,8 @@ namespace Restaurant.Areas.Admin.Controllers
             if (reservation == null)
                 return NotFound();
 
-            reservation.ReservationDateTime = DateTime.Parse(reservation.ReservationDateTime.ToString("dd/MM/yyyy HH:mm tt"));
+            var reservationDt = reservation.ReservationDateTime;
+            reservation.ReservationDateTime = new DateTime(reservationDt.Year, reservationDt.Month, reservationDt.Day, reservationDt.Hour, reservationDt.Minute, 0);
 
             return View(_mapper.Map<ReservationViewModel>(reservation));
         }
