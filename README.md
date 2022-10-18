@@ -2,7 +2,7 @@
 
 A fully featured website for a restaurant, developed in .NET 6. It consists of two parts, the front-end and the admin panel. The front-end is the presentation website for the customers. The admin panel allows you to manage the reservations and the content of site.
 
-Live Demo: https://demo4-kouki.azurewebsites.net/
+Live Demo: [Front-end](https://demo4-kouki.azurewebsites.net/) / [Admin Panel](https://demo4-kouki.azurewebsites.net/Admin)
 
 ## Features
 
