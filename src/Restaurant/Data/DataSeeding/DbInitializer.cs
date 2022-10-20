@@ -61,11 +61,11 @@ namespace Restaurant.Data.DataSeeding
             db.Menus.RemoveRange(db.Menus.ToList());
             await db.SaveChangesAsync();
 
-            db.Menus.Add(new Menu() { Name = "Κυρίως Μενού", NameEn = "Main Dishes", IsPublished = true, OrderLevel = 1000 });
-            db.Menus.Add(new Menu() { Name = "Σαλάτες", NameEn = "Salads", IsPublished = true, OrderLevel = 1000 });
-            db.Menus.Add(new Menu() { Name = "Κρασιά", NameEn = "Wines", IsPublished = true, OrderLevel = 1000 });
-            db.Menus.Add(new Menu() { Name = "Αναψυκτικά", NameEn = "Drinks", IsPublished = true, OrderLevel = 1000 });
-            db.Menus.Add(new Menu() { Name = "Επιδόρπια", NameEn = "Desserts", IsPublished = true, OrderLevel = 1000 });
+            db.Menus.Add(new Menu() { Name = "Κυρίως Μενού", NameEn = "Main Dishes", IsPublished = true, OrderLevel = 1001 });
+            db.Menus.Add(new Menu() { Name = "Σαλάτες", NameEn = "Salads", IsPublished = true, OrderLevel = 1002 });
+            db.Menus.Add(new Menu() { Name = "Κρασιά", NameEn = "Wines", IsPublished = true, OrderLevel = 1003 });
+            db.Menus.Add(new Menu() { Name = "Αναψυκτικά", NameEn = "Drinks", IsPublished = true, OrderLevel = 1004 });
+            db.Menus.Add(new Menu() { Name = "Επιδόρπια", NameEn = "Desserts", IsPublished = true, OrderLevel = 1005 });
 
             await db.SaveChangesAsync();
         }
@@ -100,16 +100,45 @@ namespace Restaurant.Data.DataSeeding
             db.Recommendations.RemoveRange(db.Recommendations.ToList());
             await db.SaveChangesAsync();
 
-            for (int i = 0; i < 4; i++)
+            db.Recommendations.Add(new Recommendation()
             {
-                db.Recommendations.Add(new Recommendation()
-                {
-                    Name = "Menu Item",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non.",
-                    Price = 10.00m,
-                    OrderLevel = 1000
-                });
-            }
+                Name = "Ριζότο με κοτόπουλο",
+                NameEn = "Chicken risotto",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non.",
+                Price = 7.00m,
+                OrderLevel = 1001,
+                PictureUrl = "demo1.jpg",
+            });
+
+            db.Recommendations.Add(new Recommendation()
+            {
+                Name = "Καρμπονάρα",
+                NameEn = "Carbonara",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non.",
+                Price = 8.00m,
+                OrderLevel = 1002,
+                PictureUrl = "demo2.jpg",
+            });
+
+            db.Recommendations.Add(new Recommendation()
+            {
+                Name = "Φιλέτο κοτόπουλο με λαχανικά",
+                NameEn = "Chicken fillet with vegetables",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non.",
+                Price = 8.50m,
+                OrderLevel = 1003,
+                PictureUrl = "demo3.jpg",
+            });
+
+            db.Recommendations.Add(new Recommendation()
+            {
+                Name = "Κέικ σοκολάτας με φρούτα",
+                NameEn = "Chocolate cake with fruits",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non.",
+                Price = 10.00m,
+                OrderLevel = 1004,
+                PictureUrl = "demo4.jpg",
+            });
 
             await db.SaveChangesAsync();
         }
