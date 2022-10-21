@@ -38,20 +38,26 @@ namespace Restaurant.Data.DataSeeding
             db.Reservations.RemoveRange(db.Reservations.ToList());
             await db.SaveChangesAsync();
 
+            var names = new string[] { "Γιώργος Γεωγίου", "Κώστας Αντωνόπουλος", "Βασίλης Παπαδόπουλος", "Μαρία Βασιλείου" };
             var rnd = new Random();
 
-            db.Reservations.Add(new Reservation()
+            for (int i = 0; i < names.Length; i++)
             {
-                FirstName = "Γιώργος",
-                LastName = "Γεωργίου",
-                Email = "useremail@admin.com",
-                Phone = "6949123456",
-                ReservationDateTime = DateTime.Now.AddHours(rnd.Next(1, 7 * 24)),
-                Guests = 2,
-                IsConfirmed = true,
-                CreatedAt = DateTime.Now,
-                IsRead = true,
-            });
+                var nameParts = names[i].Split(" ");
+
+                db.Reservations.Add(new Reservation()
+                {
+                    FirstName = nameParts[0],
+                    LastName = nameParts[1],
+                    Email = $"useremail{i + 1}@admin.com",
+                    Phone = $"694912345{i + 1}",
+                    ReservationDateTime = DateTime.Now.AddHours(rnd.Next(1, 7 * 24)),
+                    Guests = rnd.Next(2, 5),
+                    CreatedAt = DateTime.Now,
+                    IsConfirmed = rnd.Next(0, 100) > 50,
+                    IsRead = rnd.Next(0, 100) > 20,
+                });
+            }
 
             await db.SaveChangesAsync();
         }
