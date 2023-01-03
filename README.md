@@ -23,8 +23,8 @@ Live Demo: [Front-end](https://demo4-kouki.azurewebsites.net/) / [Admin Panel](h
 - Send confirmation emails with the booking details
 
 ## Technologies
-- [ASP.NET Core 6](https://github.com/dotnet/aspnetcore)
-- [Entity Framework Core 6](https://github.com/dotnet/efcore)
+- [ASP.NET Core 7](https://github.com/dotnet/aspnetcore)
+- [Entity Framework Core 7](https://github.com/dotnet/efcore)
 - [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 - [xUnit](https://github.com/xunit/xunit)
 - [SendGrid](https://github.com/sendgrid/sendgrid-csharp/)
