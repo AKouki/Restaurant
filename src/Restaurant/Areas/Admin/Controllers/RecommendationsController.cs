@@ -151,8 +151,8 @@ namespace Restaurant.Areas.Admin.Controllers
                 return NotFound();
 
             // Delete picture
-            if (!string.IsNullOrEmpty(recommendation.PictureUrl))
-                DeletePicture(recommendation.PictureUrl);
+            //if (!string.IsNullOrEmpty(recommendation.PictureUrl))
+            //    DeletePicture(recommendation.PictureUrl);
 
             _db.Recommendations.Remove(recommendation);
             await _db.SaveChangesAsync();
@@ -232,41 +232,41 @@ namespace Restaurant.Areas.Admin.Controllers
 
         private async Task<bool> UploadPictureAsync(IFormFile file, string fileName)
         {
-            try
-            {
-                var folderPath = Path.Combine(_env.WebRootPath, "uploads");
-                if (!Directory.Exists(folderPath))
-                    Directory.CreateDirectory(folderPath);
+            //try
+            //{
+            //    var folderPath = Path.Combine(_env.WebRootPath, "uploads");
+            //    if (!Directory.Exists(folderPath))
+            //        Directory.CreateDirectory(folderPath);
 
-                var filePath = Path.Combine(folderPath, fileName);
-                using var fs = new FileStream(filePath, FileMode.Create);
-                await file.CopyToAsync(fs);
+            //    var filePath = Path.Combine(folderPath, fileName);
+            //    using var fs = new FileStream(filePath, FileMode.Create);
+            //    await file.CopyToAsync(fs);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error uploading {file.FileName} to filePath.", ex.Message);
-            }
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError($"Error uploading {file.FileName} to filePath.", ex.Message);
+            //}
 
             return false;
         }
 
         private bool DeletePicture(string fileName)
         {
-            try
-            {
-                var folderPath = Path.Combine(_env.WebRootPath, "uploads");
-                var filePath = Path.Combine(folderPath, Path.GetFileName(fileName));
-                if (System.IO.File.Exists(filePath))
-                    System.IO.File.Delete(filePath);
+            //try
+            //{
+            //    var folderPath = Path.Combine(_env.WebRootPath, "uploads");
+            //    var filePath = Path.Combine(folderPath, Path.GetFileName(fileName));
+            //    if (System.IO.File.Exists(filePath))
+            //        System.IO.File.Delete(filePath);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error deleting picture: {fileName}.", ex.Message);
-            }
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError($"Error deleting picture: {fileName}.", ex.Message);
+            //}
 
             return false;
         }
