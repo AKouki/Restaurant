@@ -249,6 +249,8 @@ namespace Restaurant.Areas.Admin.Controllers
             //    _logger.LogError($"Error uploading {file.FileName} to filePath.", ex.Message);
             //}
 
+            await Task.Delay(0);
+
             return false;
         }
 

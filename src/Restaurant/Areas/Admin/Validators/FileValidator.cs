@@ -10,7 +10,7 @@
         {
             _configuration = configuration;
             _fileSizeLimit = _configuration.GetValue("Admin:FileUpload:FileSizeLimitInBytes", 1 * 1024 * 1024); // 1MB
-            _allowedExtensions = _configuration.GetValue("Admin:FileUpload:AllowedFileExtensions", ".jpg,.jpeg,.png").Split(",");
+            _allowedExtensions = _configuration.GetValue("Admin:FileUpload:AllowedFileExtensions", ".jpg,.jpeg,.png")!.Split(",");
         }
 
         public bool IsValid(IFormFile? file)
