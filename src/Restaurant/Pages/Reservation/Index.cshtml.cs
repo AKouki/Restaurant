@@ -57,7 +57,7 @@ namespace Restaurant.Pages.Reservation
 
             if (_db.Reservations.Any(r => r.Phone == Reservation.Phone))
             {
-                ModelState.AddModelError(string.Empty, _localizer["ReservationExists", _configuration["SiteSettings:ContactPhone1"]]);
+                ModelState.AddModelError(string.Empty, _localizer["ReservationExists", _configuration["SiteSettings:ContactPhone1"] ?? ""]);
                 return Page();
             }
 

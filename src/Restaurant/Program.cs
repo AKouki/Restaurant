@@ -43,7 +43,7 @@ builder.Services.Configure<SiteSettings>(builder.Configuration.GetSection("SiteS
 
 builder.Services.AddHttpClient<IReCaptchaService, ReCaptchaV3Service>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["ReCaptcha:BaseUrl"]);
+    client.BaseAddress = new Uri(builder.Configuration["ReCaptcha:BaseUrl"]!);
 });
 
 var app = builder.Build();
