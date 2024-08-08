@@ -37,7 +37,7 @@ namespace Restaurant.Services.ReCaptcha
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error validating CAPTCHA", ex.Message);
+                _logger.LogError(ex, "Error validating CAPTCHA");
             }
 
             return false;
